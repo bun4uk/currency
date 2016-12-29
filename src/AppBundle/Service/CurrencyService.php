@@ -24,18 +24,23 @@ class CurrencyService
     protected $entityManager;
 
     /**
+     * @var
+     */
+    protected $currencyRepository;
+
+    /**
      * CurrencyService constructor.
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
+        $this->currencyRepository = $entityManager->getRepository(Currency::class);
     }
 
     public function updateCurrentRate($currencyList)
     {
-        $currencyRepository = $this->entityManager->getRepository(Currency::class);
-        $currencyRepository->updateCurrentRate($currencyList);
+        $this->currencyRepository->updateCurrentRate($currencyList);
         return true;
     }
 
@@ -44,35 +49,28 @@ class CurrencyService
      */
     public function getRateUpdateDate()
     {
-        $currencyRepository = $this->entityManager->getRepository(Currency::class);
-        return ($currencyRepository->getRateUpdateDate());
+        return ($this->currencyRepository->getRateUpdateDate());
     }
 
     /**
      * @param null $rateList
+     * @return bool
      */
     public function saveRate($rateList = null)
     {
-        $currencyRepository = $this->entityManager->getRepository(Currency::class);
-
-        dump($rateList);
-
         foreach ($rateList as $rateItem) {
             $rate = new Rate();
             $rate->setBuyRate($rateItem['buy']);
             $rate->setSaleRate($rateItem['sale']);
-            $rate->setCurrencyId($currencyRepository->findOneBy(
+            $rate->setCurrencyId($this->currencyRepository->findOneBy(
                 ['name' => $rateItem['ccy']]
             )->getId());
 
             $this->entityManager->persist($rate);
             $this->entityManager->flush();
-
-
-            dump($rate);
         }
-        die;
 
+        return true;
     }
 
 }

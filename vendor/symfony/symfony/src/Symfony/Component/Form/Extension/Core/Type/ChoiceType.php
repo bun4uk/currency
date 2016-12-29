@@ -31,6 +31,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\Extension\Core\EventListener\MergeCollectionListener;
 use Symfony\Component\Form\Extension\Core\DataTransformer\ChoiceToValueTransformer;
 use Symfony\Component\Form\Extension\Core\DataTransformer\ChoicesToValuesTransformer;
+use Symfony\Component\Form\Util\FormUtil;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -90,6 +91,14 @@ class ChoiceType extends AbstractType
             $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
                 $form = $event->getForm();
                 $data = $event->getData();
+
+                if (null === $data) {
+                    $emptyData = $form->getConfig()->getEmptyData();
+
+                    if (false === FormUtil::isEmpty($emptyData) && array() !== $emptyData) {
+                        $data = is_callable($emptyData) ? call_user_func($emptyData, $form, $data) : $emptyData;
+                    }
+                }
 
                 // Convert the submitted data to a string, if scalar, before
                 // casting it to an array
@@ -259,8 +268,7 @@ class ChoiceType extends AbstractType
                 throw new \RuntimeException(sprintf('The "choices_as_values" option of the %s should not be used. Remove it and flip the contents of the "choices" option instead.', get_class($this)));
             }
 
-            // To be uncommented in 3.1
-            //@trigger_error('The "choices_as_values" option is deprecated since version 3.1 and will be removed in 4.0. You should not use it anymore.', E_USER_DEPRECATED);
+            @trigger_error('The "choices_as_values" option is deprecated since version 3.1 and will be removed in 4.0. You should not use it anymore.', E_USER_DEPRECATED);
 
             return true;
         };
@@ -300,7 +308,7 @@ class ChoiceType extends AbstractType
             'multiple' => false,
             'expanded' => false,
             'choices' => array(),
-            'choices_as_values' => null, // to be deprecated in 3.1
+            'choices_as_values' => null, // deprecated since 3.1
             'choice_loader' => null,
             'choice_label' => null,
             'choice_name' => null,
@@ -345,9 +353,9 @@ class ChoiceType extends AbstractType
     /**
      * Adds the sub fields for an expanded choice field.
      *
-     * @param FormBuilderInterface $builder     The form builder.
-     * @param array                $choiceViews The choice view objects.
-     * @param array                $options     The build options.
+     * @param FormBuilderInterface $builder     The form builder
+     * @param array                $choiceViews The choice view objects
+     * @param array                $options     The build options
      */
     private function addSubForms(FormBuilderInterface $builder, array $choiceViews, array $options)
     {

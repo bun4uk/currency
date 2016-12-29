@@ -12,6 +12,10 @@
 namespace Symfony\Component\Serializer\Tests;
 
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -312,6 +316,35 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
             $serializer->deserialize($jsonData, __NAMESPACE__.'\Model[]', 'json')
         );
     }
+
+    public function testNormalizerAware()
+    {
+        $normalizerAware = $this->getMock(NormalizerAwareInterface::class);
+        $normalizerAware->expects($this->once())
+            ->method('setNormalizer')
+            ->with($this->isInstanceOf(NormalizerInterface::class));
+
+        new Serializer(array($normalizerAware));
+    }
+
+    public function testDenormalizerAware()
+    {
+        $denormalizerAware = $this->getMock(DenormalizerAwareInterface::class);
+        $denormalizerAware->expects($this->once())
+            ->method('setDenormalizer')
+            ->with($this->isInstanceOf(DenormalizerInterface::class));
+
+        new Serializer(array($denormalizerAware));
+    }
+
+    public function testDeserializeObjectConstructorWithObjectTypeHint()
+    {
+        $jsonData = '{"bar":{"value":"baz"}}';
+
+        $serializer = new Serializer(array(new ObjectNormalizer()), array('json' => new JsonEncoder()));
+
+        $this->assertEquals(new Foo(new Bar('baz')), $serializer->deserialize($jsonData, Foo::class, 'json'));
+    }
 }
 
 class Model
@@ -355,5 +388,25 @@ class Model
     public function toArray()
     {
         return array('title' => $this->title, 'numbers' => $this->numbers);
+    }
+}
+
+class Foo
+{
+    private $bar;
+
+    public function __construct(Bar $bar)
+    {
+        $this->bar = $bar;
+    }
+}
+
+class Bar
+{
+    private $value;
+
+    public function __construct($value)
+    {
+        $this->value = $value;
     }
 }

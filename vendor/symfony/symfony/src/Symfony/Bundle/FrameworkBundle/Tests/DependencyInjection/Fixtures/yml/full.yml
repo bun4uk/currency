@@ -44,7 +44,6 @@ framework:
         paths: ['%kernel.root_dir%/Fixtures/translations']
     validation:
         enabled: true
-        cache:   validator.mapping.cache.doctrine.apc
     annotations:
         cache:   file
         debug:   true
@@ -52,8 +51,8 @@ framework:
     serializer:
          enabled:        true
          enable_annotations: true
-         cache:          serializer.mapping.cache.apc
          name_converter: serializer.name_converter.camel_case_to_snake_case
+    property_info: ~
     ide: file%%link%%format
     request:
         formats:

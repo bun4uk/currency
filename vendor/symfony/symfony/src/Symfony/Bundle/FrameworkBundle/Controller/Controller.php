@@ -13,8 +13,11 @@ namespace Symfony\Bundle\FrameworkBundle\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -64,8 +67,10 @@ abstract class Controller implements ContainerAwareInterface
      */
     protected function forward($controller, array $path = array(), array $query = array())
     {
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+        $path['_forwarded'] = $request->attributes;
         $path['_controller'] = $controller;
-        $subRequest = $this->container->get('request_stack')->getCurrentRequest()->duplicate($query, null, $path);
+        $subRequest = $request->duplicate($query, null, $path);
 
         return $this->container->get('http_kernel')->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
     }
@@ -95,6 +100,46 @@ abstract class Controller implements ContainerAwareInterface
     protected function redirectToRoute($route, array $parameters = array(), $status = 302)
     {
         return $this->redirect($this->generateUrl($route, $parameters), $status);
+    }
+
+    /**
+     * Returns a JsonResponse that uses the serializer component if enabled, or json_encode.
+     *
+     * @param mixed $data    The response data
+     * @param int   $status  The status code to use for the Response
+     * @param array $headers Array of extra headers to add
+     * @param array $context Context to pass to serializer when using serializer component
+     *
+     * @return JsonResponse
+     */
+    protected function json($data, $status = 200, $headers = array(), $context = array())
+    {
+        if ($this->container->has('serializer')) {
+            $json = $this->container->get('serializer')->serialize($data, 'json', array_merge(array(
+                'json_encode_options' => JsonResponse::DEFAULT_ENCODING_OPTIONS,
+            ), $context));
+
+            return new JsonResponse($json, $status, $headers, true);
+        }
+
+        return new JsonResponse($data, $status, $headers);
+    }
+
+    /**
+     * Returns a BinaryFileResponse object with original or customized file name and disposition header.
+     *
+     * @param \SplFileInfo|string $file        File object or path to file to be sent as response
+     * @param string|null         $fileName    File name to be sent to response or null (will use original file name)
+     * @param string              $disposition Disposition of response ("attachment" is default, other type is "inline")
+     *
+     * @return BinaryFileResponse
+     */
+    protected function file($file, $fileName = null, $disposition = ResponseHeaderBag::DISPOSITION_ATTACHMENT)
+    {
+        $response = new BinaryFileResponse($file);
+        $response->setContentDisposition($disposition, $fileName === null ? $response->getFile()->getFilename() : $fileName);
+
+        return $response;
     }
 
     /**
@@ -146,7 +191,11 @@ abstract class Controller implements ContainerAwareInterface
     protected function denyAccessUnlessGranted($attributes, $object = null, $message = 'Access Denied.')
     {
         if (!$this->isGranted($attributes, $object)) {
-            throw $this->createAccessDeniedException($message);
+            $exception = $this->createAccessDeniedException($message);
+            $exception->setAttributes($attributes);
+            $exception->setSubject($object);
+
+            throw $exception;
         }
     }
 

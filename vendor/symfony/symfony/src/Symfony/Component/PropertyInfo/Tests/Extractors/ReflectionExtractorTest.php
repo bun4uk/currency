@@ -12,6 +12,7 @@
 namespace Symfony\Component\PropertyInfo\Tests\Extractor;
 
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\PropertyInfo\Tests\Fixtures\AdderRemoverDummy;
 use Symfony\Component\PropertyInfo\Type;
 
 /**
@@ -94,6 +95,26 @@ class ReflectionExtractorTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @dataProvider php71TypesProvider
+     * @requires PHP 7.1
+     */
+    public function testExtractPhp71Type($property, array $type = null)
+    {
+        $this->assertEquals($type, $this->extractor->getTypes('Symfony\Component\PropertyInfo\Tests\Fixtures\Php71Dummy', $property, array()));
+    }
+
+    public function php71TypesProvider()
+    {
+        return array(
+            array('foo', array(new Type(Type::BUILTIN_TYPE_ARRAY, true, null, true))),
+            array('buz', array(new Type(Type::BUILTIN_TYPE_NULL))),
+            array('bar', array(new Type(Type::BUILTIN_TYPE_INT, true))),
+            array('baz', array(new Type(Type::BUILTIN_TYPE_ARRAY, false, null, true, new Type(Type::BUILTIN_TYPE_INT), new Type(Type::BUILTIN_TYPE_STRING)))),
+            array('donotexist', null),
+        );
+    }
+
     public function testIsReadable()
     {
         $this->assertFalse($this->extractor->isReadable('Symfony\Component\PropertyInfo\Tests\Fixtures\Dummy', 'bar', array()));
@@ -118,5 +139,12 @@ class ReflectionExtractorTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->extractor->isWritable('Symfony\Component\PropertyInfo\Tests\Fixtures\Dummy', 'd', array()));
         $this->assertTrue($this->extractor->isWritable('Symfony\Component\PropertyInfo\Tests\Fixtures\Dummy', 'e', array()));
         $this->assertTrue($this->extractor->isWritable('Symfony\Component\PropertyInfo\Tests\Fixtures\Dummy', 'f', array()));
+    }
+
+    public function testSingularize()
+    {
+        $this->assertTrue($this->extractor->isWritable(AdderRemoverDummy::class, 'analyses'));
+        $this->assertTrue($this->extractor->isWritable(AdderRemoverDummy::class, 'feet'));
+        $this->assertEquals(array('analyses', 'feet'), $this->extractor->getProperties(AdderRemoverDummy::class));
     }
 }

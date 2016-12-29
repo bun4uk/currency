@@ -274,6 +274,15 @@ class TextDescriptor extends Descriptor
         }
         $tableRows[] = array('Tags', $tagInformation);
 
+        $calls = $definition->getMethodCalls();
+        if (count($calls) > 0) {
+            $callInformation = array();
+            foreach ($calls as $call) {
+                $callInformation[] = $call[0];
+            }
+            $tableRows[] = array('Calls', implode(', ', $callInformation));
+        }
+
         $tableRows[] = array('Public', $definition->isPublic() ? 'yes' : 'no');
         $tableRows[] = array('Synthetic', $definition->isSynthetic() ? 'yes' : 'no');
         $tableRows[] = array('Lazy', $definition->isLazy() ? 'yes' : 'no');
@@ -322,7 +331,7 @@ class TextDescriptor extends Descriptor
      */
     protected function describeContainerAlias(Alias $alias, array $options = array())
     {
-        $options['output']->comment(sprintf("This service is an alias for the service <info>%s</info>\n", (string) $alias));
+        $options['output']->comment(sprintf('This service is an alias for the service <info>%s</info>', (string) $alias));
     }
 
     /**

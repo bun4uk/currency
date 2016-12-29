@@ -63,7 +63,7 @@ class CurrencyRepository extends EntityRepository
 
 
     /**
-     *
+     * @return bool|string
      */
     public function getRateUpdateDate()
     {
@@ -75,6 +75,7 @@ class CurrencyRepository extends EntityRepository
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
         $stmt->execute();
         $date = $stmt->fetchColumn();
+
         return ($date);
     }
 

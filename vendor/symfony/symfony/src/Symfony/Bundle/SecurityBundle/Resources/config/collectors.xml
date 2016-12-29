@@ -10,6 +10,8 @@
             <argument type="service" id="security.token_storage" on-invalid="ignore" />
             <argument type="service" id="security.role_hierarchy" />
             <argument type="service" id="security.logout_url_generator" />
+            <argument type="service" id="security.access.decision_manager" />
+            <argument type="service" id="security.firewall.map" />
         </service>
     </services>
 </container>

@@ -39,11 +39,13 @@ class TranslationUpdateCommand extends ContainerAwareCommand
                 new InputArgument('locale', InputArgument::REQUIRED, 'The locale'),
                 new InputArgument('bundle', InputArgument::OPTIONAL, 'The bundle name or directory where to load the messages, defaults to app/Resources folder'),
                 new InputOption('prefix', null, InputOption::VALUE_OPTIONAL, 'Override the default prefix', '__'),
+                new InputOption('no-prefix', null, InputOption::VALUE_NONE, 'If set, no prefix is added to the translations'),
                 new InputOption('output-format', null, InputOption::VALUE_OPTIONAL, 'Override the default output format', 'yml'),
                 new InputOption('dump-messages', null, InputOption::VALUE_NONE, 'Should the messages be dumped in the console'),
                 new InputOption('force', null, InputOption::VALUE_NONE, 'Should the update be done'),
                 new InputOption('no-backup', null, InputOption::VALUE_NONE, 'Should backup be disabled'),
                 new InputOption('clean', null, InputOption::VALUE_NONE, 'Should clean not found messages'),
+                new InputOption('domain', null, InputOption::VALUE_OPTIONAL, 'Specify the domain to update'),
             ))
             ->setDescription('Updates the translation file')
             ->setHelp(<<<'EOF'
@@ -63,6 +65,18 @@ Example running against app messages (app/Resources folder)
 EOF
             )
         ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEnabled()
+    {
+        if (!class_exists('Symfony\Component\Translation\Translator')) {
+            return false;
+        }
+
+        return parent::isEnabled();
     }
 
     /**
@@ -120,7 +134,7 @@ EOF
         $extractedCatalogue = new MessageCatalogue($input->getArgument('locale'));
         $io->comment('Parsing templates...');
         $extractor = $this->getContainer()->get('translation.extractor');
-        $extractor->setPrefix($input->getOption('prefix'));
+        $extractor->setPrefix($input->getOption('no-prefix') ? '' : $input->getOption('prefix'));
         foreach ($transPaths as $path) {
             $path .= 'views';
             if (is_dir($path)) {
@@ -137,6 +151,11 @@ EOF
             if (is_dir($path)) {
                 $loader->loadMessages($path, $currentCatalogue);
             }
+        }
+
+        if (null !== $domain = $input->getOption('domain')) {
+            $currentCatalogue = $this->filterCatalogue($currentCatalogue, $domain);
+            $extractedCatalogue = $this->filterCatalogue($extractedCatalogue, $domain);
         }
 
         // process catalogues
@@ -160,11 +179,8 @@ EOF
             foreach ($operation->getDomains() as $domain) {
                 $newKeys = array_keys($operation->getNewMessages($domain));
                 $allKeys = array_keys($operation->getMessages($domain));
-                $domainMessagesCount = count($newKeys) + count($allKeys);
 
-                $io->section(sprintf('Messages extracted for domain "<info>%s</info>" (%d messages)', $domain, $domainMessagesCount));
-
-                $io->listing(array_merge(
+                $list = array_merge(
                     array_diff($allKeys, $newKeys),
                     array_map(function ($id) {
                         return sprintf('<fg=green>%s</>', $id);
@@ -172,7 +188,12 @@ EOF
                     array_map(function ($id) {
                         return sprintf('<fg=red>%s</>', $id);
                     }, array_keys($operation->getObsoleteMessages($domain)))
-                ));
+                );
+
+                $domainMessagesCount = count($list);
+
+                $io->section(sprintf('Messages extracted for domain "<info>%s</info>" (%d message%s)', $domain, $domainMessagesCount, $domainMessagesCount > 1 ? 's' : ''));
+                $io->listing($list);
 
                 $extractedMessagesCount += $domainMessagesCount;
             }
@@ -181,7 +202,7 @@ EOF
                 $io->comment('Xliff output version is <info>1.2</info>');
             }
 
-            $resultMessage = sprintf('%d messages were successfully extracted', $extractedMessagesCount);
+            $resultMessage = sprintf('%d message%s successfully extracted', $extractedMessagesCount, $extractedMessagesCount > 1 ? 's were' : ' was');
         }
 
         if ($input->getOption('no-backup') === true) {
@@ -212,5 +233,24 @@ EOF
         }
 
         $io->success($resultMessage.'.');
+    }
+
+    private function filterCatalogue(MessageCatalogue $catalogue, $domain)
+    {
+        $filteredCatalogue = new MessageCatalogue($catalogue->getLocale());
+
+        if ($messages = $catalogue->all($domain)) {
+            $filteredCatalogue->add($messages, $domain);
+        }
+        foreach ($catalogue->getResources() as $resource) {
+            $filteredCatalogue->addResource($resource);
+        }
+        if ($metadata = $catalogue->getMetadata('', $domain)) {
+            foreach ($metadata as $k => $v) {
+                $filteredCatalogue->setMetadata($k, $v, $domain);
+            }
+        }
+
+        return $filteredCatalogue;
     }
 }

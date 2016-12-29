@@ -59,6 +59,7 @@ class Response
     const HTTP_REQUESTED_RANGE_NOT_SATISFIABLE = 416;
     const HTTP_EXPECTATION_FAILED = 417;
     const HTTP_I_AM_A_TEAPOT = 418;                                               // RFC2324
+    const HTTP_MISDIRECTED_REQUEST = 421;                                         // RFC7540
     const HTTP_UNPROCESSABLE_ENTITY = 422;                                        // RFC4918
     const HTTP_LOCKED = 423;                                                      // RFC4918
     const HTTP_FAILED_DEPENDENCY = 424;                                           // RFC4918
@@ -115,7 +116,7 @@ class Response
      *
      * The list of codes is complete according to the
      * {@link http://www.iana.org/assignments/http-status-codes/ Hypertext Transfer Protocol (HTTP) Status Code Registry}
-     * (last updated 2015-05-19).
+     * (last updated 2016-03-01).
      *
      * Unless otherwise noted, the status code is defined in RFC2616.
      *
@@ -162,6 +163,7 @@ class Response
         416 => 'Range Not Satisfiable',
         417 => 'Expectation Failed',
         418 => 'I\'m a teapot',                                               // RFC2324
+        421 => 'Misdirected Request',                                         // RFC7540
         422 => 'Unprocessable Entity',                                        // RFC4918
         423 => 'Locked',                                                      // RFC4918
         424 => 'Failed Dependency',                                           // RFC4918
@@ -184,6 +186,30 @@ class Response
         511 => 'Network Authentication Required',                             // RFC6585
     );
 
+    private static $deprecatedMethods = array(
+        'setDate', 'getDate',
+        'setExpires', 'getExpires',
+        'setLastModified', 'getLastModified',
+        'setProtocolVersion', 'getProtocolVersion',
+        'setStatusCode', 'getStatusCode',
+        'setCharset', 'getCharset',
+        'setPrivate', 'setPublic',
+        'getAge', 'getMaxAge', 'setMaxAge', 'setSharedMaxAge',
+        'getTtl', 'setTtl', 'setClientTtl',
+        'getEtag', 'setEtag',
+        'hasVary', 'getVary', 'setVary',
+        'isInvalid', 'isSuccessful', 'isRedirection',
+        'isClientError', 'isOk', 'isForbidden',
+        'isNotFound', 'isRedirect', 'isEmpty',
+    );
+    private static $deprecationsTriggered = array(
+        __CLASS__ => true,
+        BinaryFileResponse::class => true,
+        JsonResponse::class => true,
+        RedirectResponse::class => true,
+        StreamedResponse::class => true,
+    );
+
     /**
      * Constructor.
      *
@@ -199,6 +225,23 @@ class Response
         $this->setContent($content);
         $this->setStatusCode($status);
         $this->setProtocolVersion('1.0');
+
+        // Deprecations
+        $class = get_class($this);
+        if ($this instanceof \PHPUnit_Framework_MockObject_MockObject || $this instanceof \Prophecy\Doubler\DoubleInterface) {
+            $class = get_parent_class($class);
+        }
+        if (isset(self::$deprecationsTriggered[$class])) {
+            return;
+        }
+
+        self::$deprecationsTriggered[$class] = true;
+        foreach (self::$deprecatedMethods as $method) {
+            $r = new \ReflectionMethod($class, $method);
+            if (__CLASS__ !== $r->getDeclaringClass()->getName()) {
+                @trigger_error(sprintf('Extending %s::%s() in %s is deprecated since version 3.2 and won\'t be supported anymore in 4.0 as it will be final.', __CLASS__, $method, $class), E_USER_DEPRECATED);
+            }
+        }
     }
 
     /**
@@ -256,7 +299,7 @@ class Response
      *
      * @param Request $request A Request instance
      *
-     * @return Response The current response.
+     * @return Response The current response
      */
     public function prepare(Request $request)
     {
@@ -305,7 +348,7 @@ class Response
         }
 
         // Check if we need to send extra expire info headers
-        if ('1.0' == $this->getProtocolVersion() && 'no-cache' == $this->headers->get('Cache-Control')) {
+        if ('1.0' == $this->getProtocolVersion() && false !== strpos($this->headers->get('Cache-Control'), 'no-cache')) {
             $this->headers->set('pragma', 'no-cache');
             $this->headers->set('expires', -1);
         }
@@ -343,7 +386,11 @@ class Response
 
         // cookies
         foreach ($this->headers->getCookies() as $cookie) {
-            setcookie($cookie->getName(), $cookie->getValue(), $cookie->getExpiresTime(), $cookie->getPath(), $cookie->getDomain(), $cookie->isSecure(), $cookie->isHttpOnly());
+            if ($cookie->isRaw()) {
+                setrawcookie($cookie->getName(), $cookie->getValue(), $cookie->getExpiresTime(), $cookie->getPath(), $cookie->getDomain(), $cookie->isSecure(), $cookie->isHttpOnly());
+            } else {
+                setcookie($cookie->getName(), $cookie->getValue(), $cookie->getExpiresTime(), $cookie->getPath(), $cookie->getDomain(), $cookie->isSecure(), $cookie->isHttpOnly());
+            }
         }
 
         return $this;
@@ -1002,7 +1049,7 @@ class Response
      */
     public function isNotModified(Request $request)
     {
-        if (!$request->isMethodSafe()) {
+        if (!$request->isMethodCacheable()) {
             return false;
         }
 
@@ -1166,7 +1213,7 @@ class Response
     /**
      * Checks if we need to remove Cache-Control for SSL encrypted downloads when using IE < 9.
      *
-     * @link http://support.microsoft.com/kb/323308
+     * @see http://support.microsoft.com/kb/323308
      */
     protected function ensureIEOverSSLCompatibility(Request $request)
     {

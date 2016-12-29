@@ -60,6 +60,27 @@ class ProxyDumperTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetProxyFactoryCodeWithCustomMethod()
+    {
+        $definition = new Definition(__CLASS__);
+
+        $definition->setLazy(true);
+
+        $code = $this->dumper->getProxyFactoryCode($definition, 'foo', 'getFoo2Service');
+
+        $this->assertStringMatchesFormat(
+            '%wif ($lazyLoad) {%wreturn $this->services[\'foo\'] =%s'
+            .'SymfonyBridgeProxyManagerTestsLazyProxyPhpDumperProxyDumperTest_%s(%wfunction '
+            .'(&$wrappedInstance, \ProxyManager\Proxy\LazyLoadingInterface $proxy) {'
+            .'%w$wrappedInstance = $this->getFoo2Service(false);%w$proxy->setProxyInitializer(null);'
+            .'%wreturn true;%w}%w);%w}%w',
+           $code
+        );
+    }
+
+    /**
+     * @group legacy
+     */
     public function testGetProxyFactoryCode()
     {
         $definition = new Definition(__CLASS__);
@@ -86,7 +107,7 @@ class ProxyDumperTest extends \PHPUnit_Framework_TestCase
         $definitions = array(
             array(new Definition(__CLASS__), true),
             array(new Definition('stdClass'), true),
-            array(new Definition('foo'.uniqid()), false),
+            array(new Definition(uniqid('foo', true)), false),
             array(new Definition(), false),
         );
 

@@ -19,6 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\Config\FileLocator;
 
 /**
@@ -96,7 +97,11 @@ EOF
         $object = $this->getContainerBuilder();
 
         if ($input->getOption('parameters')) {
-            $object = $object->getParameterBag();
+            $parameters = array();
+            foreach ($object->getParameterBag()->all() as $k => $v) {
+                $parameters[$k] = $object->resolveEnvPlaceholders($v);
+            }
+            $object = new ParameterBag($parameters);
             $options = array();
         } elseif ($parameter = $input->getOption('parameter')) {
             $options = array('parameter' => $parameter);
@@ -194,7 +199,9 @@ EOF
             throw new \InvalidArgumentException(sprintf('No services found that match "%s".', $name));
         }
 
-        return $io->choice('Select one of the following services to display its information', $matchingServices);
+        $default = 1 === count($matchingServices) ? $matchingServices[0] : null;
+
+        return $io->choice('Select one of the following services to display its information', $matchingServices, $default);
     }
 
     private function findServiceIdsContaining(ContainerBuilder $builder, $name)
