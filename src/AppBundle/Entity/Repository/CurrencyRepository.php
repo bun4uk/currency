@@ -80,4 +80,16 @@ class CurrencyRepository extends EntityRepository
     }
 
 
+    public function getCurrencyChoices()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT c.id, c.name
+            FROM AppBundle:Currency c
+            ORDER BY c.id'
+        );
+
+        return $query->getResult();
+    }
+
 }

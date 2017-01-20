@@ -15,16 +15,14 @@ use AppBundle\Entity\Repository\CurrencyRepository;
 use AppBundle\Entity\Currency;
 use AppBundle\Entity\Rate;
 use ACSEO\Bundle\GraphicBundle\Graphic\Flot\Type\TimeLine;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\TaxType;
 
 class CurrencyController extends Controller
 {
 
     protected $currencyIds = [
         'usd' => 1,
-        'euro' => 2,
+        'eur' => 2,
         'rur' => 3,
         'btc' => 4,
     ];
@@ -34,12 +32,15 @@ class CurrencyController extends Controller
      */
     public function indexAction()
     {
-        $currencyService = $this->get('app.CurrencyService');
-        $bankApiService = $this->get('app.BankApi');
+        $currencyService = $this->get('app.currency_service');
+        $bankApiService = $this->get('app.bank_api');
 
         $currencyList = $bankApiService->getPrivatCurrencyList();
 
-        $updateTime = $this->get('app.CurrencyService')->getRateUpdateDate();
+        dump($currencyList);
+        //die;
+
+        $updateTime = $this->get('app.currency_service')->getRateUpdateDate();
         $timeDiff = time() - strtotime($updateTime);
 
         dump( $timeDiff );
@@ -72,6 +73,9 @@ class CurrencyController extends Controller
             throw new Exception('Currency not found!');
         }
 
+        $buyRateData =[];
+        $saleRateData = [];
+
         $rates = $this->getDoctrine()->getRepository(Rate::class)->findBy(['currencyId' => $this->currencyIds[$currency]]);
 
         foreach ($rates as $rate) {
@@ -101,13 +105,38 @@ class CurrencyController extends Controller
      * )
      *
      */
-    public function taxAction()
+    public function taxAction(Request $request)
     {
-        $form = $this->createFormBuilder()
-            ->add('task', TextType::class)
-            ->add('dueDate', DateType::class)
-            ->add('save', SubmitType::class, array('label' => 'Create Post'))
-            ->getForm();
+        $bankApiService = $this->get('app.bank_api');
+        $form = $this->createForm(TaxType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $formData = $form->getData();
+            $hrnRate = $bankApiService->getCurrencyRateToHryvna($formData['currency'], $formData['date']->format('Ymd'));
+            $sumHrn = $formData['sum'] * $hrnRate[0]['rate'];
+            $tax = $sumHrn * 0.05;
+
+            return $this->render(
+                'currency/tax_result.html.twig',
+                [
+                    'hrnRate' => $hrnRate[0],
+                    'sumHrn' => $sumHrn,
+                    'tax' => $tax,
+                    'formData' => $formData
+                ]
+            );
+
+
+
+            dump($hrnRate);
+            dump($sumHrn);
+            dump($tax);
+
+            die;
+        }
+
 
         return $this->render('currency/tax.html.twig', array(
             'form' => $form->createView(),

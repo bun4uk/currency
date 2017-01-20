@@ -11,6 +11,7 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Currency;
 use AppBundle\Entity\Rate;
 use Doctrine\ORM\EntityManagerInterface;
+use AppBundle\Entity\Repository\CurrencyRepository;
 
 
 class CurrencyService
@@ -24,7 +25,7 @@ class CurrencyService
     protected $entityManager;
 
     /**
-     * @var
+     * @var CurrencyRepository
      */
     protected $currencyRepository;
 
@@ -71,6 +72,11 @@ class CurrencyService
         }
 
         return true;
+    }
+
+    public function getCurrencyChoices()
+    {
+        return ($this->currencyRepository->getCurrencyChoices());
     }
 
 }

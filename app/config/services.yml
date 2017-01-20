@@ -7,9 +7,14 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
-    app.BankApi:
+    app.bank_api:
         class:  AppBundle\Service\BankApi
 
-    app.CurrencyService:
+    app.currency_service:
         class:  AppBundle\Service\CurrencyService
         arguments: ["@doctrine.orm.entity_manager"]
+
+    app.form.tax:
+        class:  AppBundle\Form\TaxType
+        arguments:
+            - '@app.currency_service'
