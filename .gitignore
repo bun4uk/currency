@@ -37,3 +37,5 @@
 
 /bower_components
 /mysql
+/currency
+/performance_schema
