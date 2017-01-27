@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
   <parameters>
-    <parameter key="kernel.root_dir">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/app</parameter>
+    <parameter key="kernel.root_dir">/var/www/html/app</parameter>
     <parameter key="kernel.environment">dev</parameter>
     <parameter key="kernel.debug">true</parameter>
     <parameter key="kernel.name">app</parameter>
-    <parameter key="kernel.cache_dir">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev</parameter>
-    <parameter key="kernel.logs_dir">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/logs</parameter>
+    <parameter key="kernel.cache_dir">/var/www/html/var/cache/dev</parameter>
+    <parameter key="kernel.logs_dir">/var/www/html/var/logs</parameter>
     <parameter key="kernel.bundles" type="collection">
       <parameter key="FrameworkBundle">Symfony\Bundle\FrameworkBundle\FrameworkBundle</parameter>
       <parameter key="SecurityBundle">Symfony\Bundle\SecurityBundle\SecurityBundle</parameter>
@@ -17,6 +17,7 @@
       <parameter key="SensioFrameworkExtraBundle">Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle</parameter>
       <parameter key="AppBundle">AppBundle\AppBundle</parameter>
       <parameter key="ACSEOGraphicBundle">ACSEO\Bundle\GraphicBundle\ACSEOGraphicBundle</parameter>
+      <parameter key="TwitterBootstrapBundle">Twitter\BootstrapBundle\TwitterBootstrapBundle</parameter>
       <parameter key="DebugBundle">Symfony\Bundle\DebugBundle\DebugBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
@@ -25,77 +26,82 @@
     <parameter key="kernel.bundles_metadata" type="collection">
       <parameter key="FrameworkBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle</parameter>
+        <parameter key="path">/var/www/html/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle</parameter>
         <parameter key="namespace">Symfony\Bundle\FrameworkBundle</parameter>
       </parameter>
       <parameter key="SecurityBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle</parameter>
+        <parameter key="path">/var/www/html/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle</parameter>
         <parameter key="namespace">Symfony\Bundle\SecurityBundle</parameter>
       </parameter>
       <parameter key="TwigBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle</parameter>
+        <parameter key="path">/var/www/html/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle</parameter>
         <parameter key="namespace">Symfony\Bundle\TwigBundle</parameter>
       </parameter>
       <parameter key="MonologBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/symfony/monolog-bundle</parameter>
+        <parameter key="path">/var/www/html/vendor/symfony/monolog-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\MonologBundle</parameter>
       </parameter>
       <parameter key="SwiftmailerBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/symfony/swiftmailer-bundle</parameter>
+        <parameter key="path">/var/www/html/vendor/symfony/swiftmailer-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\SwiftmailerBundle</parameter>
       </parameter>
       <parameter key="DoctrineBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/doctrine/doctrine-bundle</parameter>
+        <parameter key="path">/var/www/html/vendor/doctrine/doctrine-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\DoctrineBundle</parameter>
       </parameter>
       <parameter key="SensioFrameworkExtraBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/sensio/framework-extra-bundle</parameter>
+        <parameter key="path">/var/www/html/vendor/sensio/framework-extra-bundle</parameter>
         <parameter key="namespace">Sensio\Bundle\FrameworkExtraBundle</parameter>
       </parameter>
       <parameter key="AppBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/src/AppBundle</parameter>
+        <parameter key="path">/var/www/html/src/AppBundle</parameter>
         <parameter key="namespace">AppBundle</parameter>
       </parameter>
       <parameter key="ACSEOGraphicBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/acseo/graphic-bundle/ACSEO/Bundle/GraphicBundle</parameter>
+        <parameter key="path">/var/www/html/vendor/acseo/graphic-bundle/ACSEO/Bundle/GraphicBundle</parameter>
         <parameter key="namespace">ACSEO\Bundle\GraphicBundle</parameter>
+      </parameter>
+      <parameter key="TwitterBootstrapBundle" type="collection">
+        <parameter key="parent">null</parameter>
+        <parameter key="path">/var/www/html/vendor/twitter/bootstrap-bundle</parameter>
+        <parameter key="namespace">Twitter\BootstrapBundle</parameter>
       </parameter>
       <parameter key="DebugBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle</parameter>
+        <parameter key="path">/var/www/html/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle</parameter>
         <parameter key="namespace">Symfony\Bundle\DebugBundle</parameter>
       </parameter>
       <parameter key="WebProfilerBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle</parameter>
+        <parameter key="path">/var/www/html/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle</parameter>
         <parameter key="namespace">Symfony\Bundle\WebProfilerBundle</parameter>
       </parameter>
       <parameter key="SensioDistributionBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/sensio/distribution-bundle</parameter>
+        <parameter key="path">/var/www/html/vendor/sensio/distribution-bundle</parameter>
         <parameter key="namespace">Sensio\Bundle\DistributionBundle</parameter>
       </parameter>
       <parameter key="SensioGeneratorBundle" type="collection">
         <parameter key="parent">null</parameter>
-        <parameter key="path">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/sensio/generator-bundle</parameter>
+        <parameter key="path">/var/www/html/vendor/sensio/generator-bundle</parameter>
         <parameter key="namespace">Sensio\Bundle\GeneratorBundle</parameter>
       </parameter>
     </parameter>
     <parameter key="kernel.charset">UTF-8</parameter>
     <parameter key="kernel.container_class">appDevDebugProjectContainer</parameter>
-    <parameter key="database_host">127.0.0.1</parameter>
-    <parameter key="database_port">3306</parameter>
+    <parameter key="database_host">mysql</parameter>
+    <parameter key="database_port">null</parameter>
     <parameter key="database_name">currency</parameter>
-    <parameter key="database_user">vova3</parameter>
-    <parameter key="database_password">vova3</parameter>
+    <parameter key="database_user">admin</parameter>
+    <parameter key="database_password">user3</parameter>
     <parameter key="mailer_transport">smtp</parameter>
     <parameter key="mailer_host">127.0.0.1</parameter>
     <parameter key="mailer_user">null</parameter>
@@ -116,7 +122,7 @@
       <parameter key="cookie_httponly">true</parameter>
       <parameter key="gc_probability">1</parameter>
     </parameter>
-    <parameter key="session.save_path">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/app/../var/sessions/dev</parameter>
+    <parameter key="session.save_path">/var/www/html/app/../var/sessions/dev</parameter>
     <parameter key="session.metadata.update_threshold">0</parameter>
     <parameter key="form.type_extension.csrf.enabled">true</parameter>
     <parameter key="form.type_extension.csrf.field_name">_token</parameter>
@@ -125,13 +131,13 @@
       <parameter>twig</parameter>
     </parameter>
     <parameter key="validator.mapping.cache.prefix"></parameter>
-    <parameter key="validator.mapping.cache.file">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/validation.php</parameter>
+    <parameter key="validator.mapping.cache.file">/var/www/html/var/cache/dev/validation.php</parameter>
     <parameter key="validator.translation_domain">validators</parameter>
     <parameter key="profiler_listener.only_exceptions">false</parameter>
     <parameter key="profiler_listener.only_master_requests">false</parameter>
-    <parameter key="profiler.storage.dsn">file:/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/profiler</parameter>
+    <parameter key="profiler.storage.dsn">file:/var/www/html/var/cache/dev/profiler</parameter>
     <parameter key="debug.error_handler.throw_at">-1</parameter>
-    <parameter key="debug.container.dump">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/appDevDebugProjectContainer.xml</parameter>
+    <parameter key="debug.container.dump">/var/www/html/var/cache/dev/appDevDebugProjectContainer.xml</parameter>
     <parameter key="router.options.generator_class">Symfony\Component\Routing\Generator\UrlGenerator</parameter>
     <parameter key="router.options.generator_base_class">Symfony\Component\Routing\Generator\UrlGenerator</parameter>
     <parameter key="router.options.generator_dumper_class">Symfony\Component\Routing\Generator\Dumper\PhpGeneratorDumper</parameter>
@@ -143,7 +149,7 @@
     <parameter key="router.request_context.host">localhost</parameter>
     <parameter key="router.request_context.scheme">http</parameter>
     <parameter key="router.request_context.base_url"></parameter>
-    <parameter key="router.resource">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/app/config/routing_dev.yml</parameter>
+    <parameter key="router.resource">/var/www/html/app/config/routing_dev.yml</parameter>
     <parameter key="router.cache_class_prefix">appDevDebugProjectContainer</parameter>
     <parameter key="request_listener.http_port">80</parameter>
     <parameter key="request_listener.https_port">443</parameter>
@@ -243,7 +249,7 @@
     <parameter key="swiftmailer.mailer.default.transport.smtp.timeout">30</parameter>
     <parameter key="swiftmailer.mailer.default.transport.smtp.source_ip">null</parameter>
     <parameter key="swiftmailer.mailer.default.transport.smtp.local_domain">null</parameter>
-    <parameter key="swiftmailer.spool.default.memory.path">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/swiftmailer/spool/default</parameter>
+    <parameter key="swiftmailer.spool.default.memory.path">/var/www/html/var/cache/dev/swiftmailer/spool/default</parameter>
     <parameter key="swiftmailer.mailer.default.spool.enabled">true</parameter>
     <parameter key="swiftmailer.mailer.default.plugin.impersonate">null</parameter>
     <parameter key="swiftmailer.mailer.default.single_address">null</parameter>
@@ -361,7 +367,7 @@
     <parameter key="doctrine.orm.second_level_cache.cache_configuration.class">Doctrine\ORM\Cache\CacheConfiguration</parameter>
     <parameter key="doctrine.orm.second_level_cache.regions_configuration.class">Doctrine\ORM\Cache\RegionsConfiguration</parameter>
     <parameter key="doctrine.orm.auto_generate_proxy_classes">true</parameter>
-    <parameter key="doctrine.orm.proxy_dir">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/doctrine/orm/Proxies</parameter>
+    <parameter key="doctrine.orm.proxy_dir">/var/www/html/var/cache/dev/doctrine/orm/Proxies</parameter>
     <parameter key="doctrine.orm.proxy_namespace">Proxies</parameter>
     <parameter key="sensio_framework_extra.view.guesser.class">Sensio\Bundle\FrameworkExtraBundle\Templating\TemplateGuesser</parameter>
     <parameter key="sensio_framework_extra.controller.listener.class">Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener</parameter>
@@ -373,6 +379,17 @@
     <parameter key="sensio_framework_extra.converter.doctrine.class">Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DoctrineParamConverter</parameter>
     <parameter key="sensio_framework_extra.converter.datetime.class">Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DateTimeParamConverter</parameter>
     <parameter key="sensio_framework_extra.view.listener.class">Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener</parameter>
+    <parameter key="twitter_bootstrap.assets" type="collection">
+      <parameter key="stylesheets" type="collection">
+        <parameter>bundles/twitterbootstrap/css/bootstrap.min.css</parameter>
+        <parameter>bundles/twitterbootstrap/css/bootstrap-responsive.min.css</parameter>
+      </parameter>
+      <parameter key="javascripts" type="collection">
+        <parameter>bundles/twitterbootstrap/js/bootstrap.min.js</parameter>
+        <parameter>//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js</parameter>
+      </parameter>
+    </parameter>
+    <parameter key="twitter_bootstrap.twig_assets.class">Twitter\BootstrapBundle\Twig\AssetsExtension</parameter>
     <parameter key="web_profiler.debug_toolbar.position">bottom</parameter>
     <parameter key="web_profiler.debug_toolbar.intercept_redirects">false</parameter>
     <parameter key="web_profiler.debug_toolbar.mode">2</parameter>
@@ -486,7 +503,7 @@
               <service class="Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplateFinder" public="false">
                 <argument type="service" id="kernel"/>
                 <argument type="service" id="templating.filename_parser"/>
-                <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/app/Resources</argument>
+                <argument>/var/www/html/app/Resources</argument>
               </service>
             </argument>
             <argument type="service" id="templating.locator"/>
@@ -503,15 +520,15 @@
           <service class="Symfony\Bundle\FrameworkBundle\CacheWarmer\ValidatorCacheWarmer" public="false">
             <tag name="kernel.cache_warmer"/>
             <argument type="service" id="validator.builder"/>
-            <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/validation.php</argument>
+            <argument>/var/www/html/var/cache/dev/validation.php</argument>
             <argument type="service">
               <service class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
                 <tag name="cache.pool"/>
                 <tag name="cache.pool" clearer="cache.default_clearer"/>
-                <argument>fAww0vaCYO</argument>
+                <argument>Jb5bVUNkWK</argument>
                 <argument>0</argument>
-                <argument>YC+tp35w2LxG9uuzZr38-c</argument>
-                <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/pools</argument>
+                <argument>KFtwdpazTPJieZLFT9TR4g</argument>
+                <argument>/var/www/html/var/cache/dev/pools</argument>
                 <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
                 <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
               </service>
@@ -528,7 +545,7 @@
           <service class="Symfony\Bundle\FrameworkBundle\CacheWarmer\AnnotationsCacheWarmer" public="false">
             <tag name="kernel.cache_warmer"/>
             <argument type="service" id="annotations.reader"/>
-            <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/annotations.php</argument>
+            <argument>/var/www/html/var/cache/dev/annotations.php</argument>
             <argument type="service" id="cache.annotations"/>
           </service>
         </argument>
@@ -540,7 +557,7 @@
               <service class="Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplateFinder" public="false">
                 <argument type="service" id="kernel"/>
                 <argument type="service" id="templating.filename_parser"/>
-                <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/app/Resources</argument>
+                <argument>/var/www/html/app/Resources</argument>
               </service>
             </argument>
             <argument type="collection"/>
@@ -553,7 +570,7 @@
             <argument type="service">
               <service class="Symfony\Bundle\TwigBundle\TemplateIterator" public="false">
                 <argument type="service" id="kernel"/>
-                <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/app</argument>
+                <argument>/var/www/html/app</argument>
                 <argument type="collection"/>
               </service>
             </argument>
@@ -593,7 +610,7 @@
     <service id="filesystem" class="Symfony\Component\Filesystem\Filesystem"/>
     <service id="file_locator" class="Symfony\Component\HttpKernel\Config\FileLocator">
       <argument type="service" id="kernel"/>
-      <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/app/Resources</argument>
+      <argument>/var/www/html/app/Resources</argument>
     </service>
     <service id="uri_signer" class="Symfony\Component\HttpKernel\UriSigner">
       <argument>88e033410ade642cc59ab506881d7c475d2c8f75</argument>
@@ -676,9 +693,9 @@
           <tag name="cache.pool" clearer="cache.default_clearer"/>
           <tag name="cache.pool" clearer="cache.default_clearer"/>
           <tag name="monolog.logger" channel="cache"/>
-          <argument>QohlPzq2lB</argument>
+          <argument>pk6-10necj</argument>
           <argument>null</argument>
-          <argument>YC+tp35w2LxG9uuzZr38-c</argument>
+          <argument>KFtwdpazTPJieZLFT9TR4g</argument>
           <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
           <factory class="Symfony\Component\PropertyAccess\PropertyAccessor" method="createCache"/>
         </service>
@@ -687,9 +704,9 @@
     <service id="cache.app" class="Symfony\Component\Cache\Adapter\FilesystemAdapter">
       <tag name="cache.pool"/>
       <tag name="cache.pool" clearer="cache.default_clearer"/>
-      <argument>USSPWUvf2o</argument>
+      <argument>czXZ4LM8Gd</argument>
       <argument>0</argument>
-      <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/pools</argument>
+      <argument>/var/www/html/var/cache/dev/pools</argument>
       <call method="setLogger">
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       </call>
@@ -697,20 +714,20 @@
     <service id="cache.system" class="Symfony\Component\Cache\Adapter\AdapterInterface">
       <tag name="cache.pool"/>
       <tag name="cache.pool" clearer="cache.default_clearer"/>
-      <argument>KU7yU8kBQb</argument>
+      <argument>y07GajEjel</argument>
       <argument>0</argument>
-      <argument>YC+tp35w2LxG9uuzZr38-c</argument>
-      <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/pools</argument>
+      <argument>KFtwdpazTPJieZLFT9TR4g</argument>
+      <argument>/var/www/html/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.annotations" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
       <tag name="cache.pool" clearer="cache.default_clearer"/>
       <tag name="cache.pool" clearer="cache.default_clearer"/>
-      <argument>wGzsVmPt7x</argument>
+      <argument>zjgXxX8mSM</argument>
       <argument>0</argument>
-      <argument>YC+tp35w2LxG9uuzZr38-c</argument>
-      <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/pools</argument>
+      <argument>KFtwdpazTPJieZLFT9TR4g</argument>
+      <argument>/var/www/html/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -766,7 +783,7 @@
         </argument>
       </argument>
       <argument type="collection">
-        <argument key="cache_dir">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/translations</argument>
+        <argument key="cache_dir">/var/www/html/var/cache/dev/translations</argument>
         <argument key="debug">true</argument>
       </argument>
       <argument type="collection"/>
@@ -1204,7 +1221,7 @@
     <service id="templating.filename_parser" class="Symfony\Bundle\FrameworkBundle\Templating\TemplateFilenameParser"/>
     <service id="templating.locator" class="Symfony\Bundle\FrameworkBundle\Templating\Loader\TemplateLocator" public="false">
       <argument type="service" id="file_locator"/>
-      <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev</argument>
+      <argument>/var/www/html/var/cache/dev</argument>
     </service>
     <service id="validator" class="Symfony\Component\Validator\Validator\ValidatorInterface">
       <factory service="validator.builder" method="getValidator"/>
@@ -1234,7 +1251,7 @@
       </call>
       <call method="addXmlMappings">
         <argument type="collection">
-          <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml</argument>
+          <argument>/var/www/html/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml</argument>
         </argument>
       </call>
       <call method="enableAnnotationMapping">
@@ -1266,7 +1283,7 @@
       <tag name="monolog.logger" channel="profiler"/>
       <argument type="service">
         <service class="Symfony\Component\HttpKernel\Profiler\FileProfilerStorage" public="false">
-          <argument>file:/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/profiler</argument>
+          <argument>file:/var/www/html/var/cache/dev/profiler</argument>
         </service>
       </argument>
       <argument type="service" id="monolog.logger.profiler" on-invalid="null"/>
@@ -1421,7 +1438,7 @@
     <service id="debug.file_link_formatter" class="Symfony\Component\HttpKernel\Debug\FileLinkFormatter" public="false">
       <argument>null</argument>
       <argument type="service" id="request_stack" on-invalid="ignore"/>
-      <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files</argument>
+      <argument>/var/www/html</argument>
       <argument>/_profiler/open?file=%%f&amp;line=%%l#line%%l</argument>
     </service>
     <service id="debug.event_dispatcher" class="Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher">
@@ -1702,7 +1719,7 @@
       <argument type="collection">
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>58812630e6dfd7.45737433</argument>
+            <argument>5888d69368c8d9.12250585</argument>
           </service>
         </argument>
       </argument>
@@ -1862,7 +1879,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.token_storage"/>
-            <argument>58812630e6dfd7.45737433</argument>
+            <argument>5888d69368c8d9.12250585</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
             <argument type="service" id="security.authentication.manager"/>
           </service>
@@ -1937,7 +1954,7 @@
           <argument>form_div_layout.html.twig</argument>
         </argument>
         <argument key="autoescape">name</argument>
-        <argument key="cache">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/twig</argument>
+        <argument key="cache">/var/www/html/var/cache/dev/twig</argument>
         <argument key="charset">UTF-8</argument>
         <argument key="paths" type="collection"/>
         <argument key="date" type="collection">
@@ -1985,19 +2002,14 @@
         </argument>
       </call>
       <call method="addExtension">
-        <argument type="service">
-          <service class="Symfony\Bridge\Twig\Extension\AssetExtension" public="false">
-            <tag name="twig.extension"/>
-            <argument type="service" id="assets.packages"/>
-          </service>
-        </argument>
+        <argument type="service" id="twig.extension.assets"/>
       </call>
       <call method="addExtension">
         <argument type="service">
           <service class="Symfony\Bridge\Twig\Extension\CodeExtension" public="false">
             <tag name="twig.extension"/>
             <argument type="service" id="debug.file_link_formatter" on-invalid="ignore"/>
-            <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/app</argument>
+            <argument>/var/www/html/app</argument>
             <argument>UTF-8</argument>
           </service>
         </argument>
@@ -2082,6 +2094,9 @@
         </argument>
       </call>
       <call method="addExtension">
+        <argument type="service" id="twitter_bootstrap.twig_assets"/>
+      </call>
+      <call method="addExtension">
         <argument type="service">
           <service class="Symfony\Bridge\Twig\Extension\DumpExtension" public="false">
             <tag name="twig.extension"/>
@@ -2164,6 +2179,10 @@
       </configurator>
     </service>
     <service id="twig.profile" class="Twig_Profiler_Profile"/>
+    <service id="twig.extension.assets" class="Symfony\Bridge\Twig\Extension\AssetExtension" public="false">
+      <tag name="twig.extension"/>
+      <argument type="service" id="assets.packages"/>
+    </service>
     <service id="twig.runtime.httpkernel" class="Symfony\Bridge\Twig\Extension\HttpKernelRuntime">
       <tag name="twig.runtime"/>
       <argument type="service" id="fragment.handler"/>
@@ -2200,7 +2219,7 @@
     </service>
     <service id="monolog.processor.psr_log_message" class="Monolog\Processor\PsrLogMessageProcessor" public="false"/>
     <service id="monolog.handler.main" class="Monolog\Handler\StreamHandler">
-      <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/logs/dev.log</argument>
+      <argument>/var/www/html/var/logs/dev.log</argument>
       <argument>100</argument>
       <argument>true</argument>
       <argument>null</argument>
@@ -2247,11 +2266,11 @@
     <service id="doctrine.dbal.default_connection" class="Doctrine\DBAL\Connection">
       <argument type="collection">
         <argument key="driver">pdo_mysql</argument>
-        <argument key="host">127.0.0.1</argument>
-        <argument key="port">3306</argument>
+        <argument key="host">mysql</argument>
+        <argument key="port">null</argument>
         <argument key="dbname">currency</argument>
-        <argument key="user">vova3</argument>
-        <argument key="password">vova3</argument>
+        <argument key="user">admin</argument>
+        <argument key="password">user3</argument>
         <argument key="charset">utf8mb4</argument>
         <argument key="driverOptions" type="collection"/>
         <argument key="defaultTableOptions" type="collection">
@@ -2313,17 +2332,17 @@
     </service>
     <service id="doctrine_cache.providers.doctrine.orm.default_metadata_cache" class="Doctrine\Common\Cache\ArrayCache">
       <call method="setNamespace">
-        <argument>sf2orm_default_69116c3426d8235a19dd4df911736559ccf9bb0a49492b2f06ba2b7144180cb7</argument>
+        <argument>sf2orm_default_2724e8f80285a8a9930f0ba361972294454e5f79b45cc40b593060dd9a101360</argument>
       </call>
     </service>
     <service id="doctrine_cache.providers.doctrine.orm.default_result_cache" class="Doctrine\Common\Cache\ArrayCache">
       <call method="setNamespace">
-        <argument>sf2orm_default_69116c3426d8235a19dd4df911736559ccf9bb0a49492b2f06ba2b7144180cb7</argument>
+        <argument>sf2orm_default_2724e8f80285a8a9930f0ba361972294454e5f79b45cc40b593060dd9a101360</argument>
       </call>
     </service>
     <service id="doctrine_cache.providers.doctrine.orm.default_query_cache" class="Doctrine\Common\Cache\ArrayCache">
       <call method="setNamespace">
-        <argument>sf2orm_default_69116c3426d8235a19dd4df911736559ccf9bb0a49492b2f06ba2b7144180cb7</argument>
+        <argument>sf2orm_default_2724e8f80285a8a9930f0ba361972294454e5f79b45cc40b593060dd9a101360</argument>
       </call>
     </service>
     <service id="doctrine.orm.default_entity_listener_resolver" class="Doctrine\Bundle\DoctrineBundle\Mapping\ContainerAwareEntityListenerResolver">
@@ -2362,7 +2381,7 @@
                     <service class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
                       <argument type="service" id="annotation_reader"/>
                       <argument type="collection">
-                        <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/src/AppBundle/Entity</argument>
+                        <argument>/var/www/html/src/AppBundle/Entity</argument>
                       </argument>
                     </service>
                   </argument>
@@ -2372,7 +2391,7 @@
             </argument>
           </call>
           <call method="setProxyDir">
-            <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/doctrine/orm/Proxies</argument>
+            <argument>/var/www/html/var/cache/dev/doctrine/orm/Proxies</argument>
           </call>
           <call method="setProxyNamespace">
             <argument>Proxies</argument>
@@ -2461,6 +2480,20 @@
       <argument type="service" id="security.role_hierarchy" on-invalid="null"/>
       <argument type="service" id="security.token_storage" on-invalid="null"/>
       <argument type="service" id="security.authorization_checker" on-invalid="null"/>
+    </service>
+    <service id="twitter_bootstrap.twig_assets" class="Twitter\BootstrapBundle\Twig\AssetsExtension">
+      <tag name="twig.extension"/>
+      <argument type="service" id="twig.extension.assets"/>
+      <argument type="collection">
+        <argument key="stylesheets" type="collection">
+          <argument>bundles/twitterbootstrap/css/bootstrap.min.css</argument>
+          <argument>bundles/twitterbootstrap/css/bootstrap-responsive.min.css</argument>
+        </argument>
+        <argument key="javascripts" type="collection">
+          <argument>bundles/twitterbootstrap/js/bootstrap.min.js</argument>
+          <argument>//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js</argument>
+        </argument>
+      </argument>
     </service>
     <service id="data_collector.dump" class="Symfony\Component\HttpKernel\DataCollector\DumpDataCollector">
       <tag name="data_collector" id="dump" template="@Debug/Profiler/dump.html.twig" priority="240"/>
@@ -2556,7 +2589,7 @@
       </argument>
       <argument>bottom</argument>
       <argument type="service" id="web_profiler.csp.handler"/>
-      <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files</argument>
+      <argument>/var/www/html</argument>
     </service>
     <service id="web_profiler.controller.router" class="Symfony\Bundle\WebProfilerBundle\Controller\RouterController">
       <argument type="service" id="profiler" on-invalid="null"/>
@@ -2704,12 +2737,12 @@
     </service>
     <service id="monolog.handler.null_internal" class="Monolog\Handler\NullHandler"/>
     <service id="session.storage.filesystem" class="Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage">
-      <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/sessions</argument>
+      <argument>/var/www/html/var/cache/dev/sessions</argument>
       <argument>MOCKSESSID</argument>
       <argument type="service" id="session.storage.metadata_bag"/>
     </service>
     <service id="session.handler" class="Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler">
-      <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/app/../var/sessions/dev</argument>
+      <argument>/var/www/html/app/../var/sessions/dev</argument>
     </service>
     <service id="templating.loader" class="Symfony\Bundle\FrameworkBundle\Templating\Loader\FilesystemLoader">
       <argument type="service" id="templating.locator"/>
@@ -2724,9 +2757,9 @@
     <service id="router" class="Symfony\Bundle\FrameworkBundle\Routing\Router">
       <tag name="monolog.logger" channel="router"/>
       <argument type="service" id="service_container"/>
-      <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/app/config/routing_dev.yml</argument>
+      <argument>/var/www/html/app/config/routing_dev.yml</argument>
       <argument type="collection">
-        <argument key="cache_dir">/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev</argument>
+        <argument key="cache_dir">/var/www/html/var/cache/dev</argument>
         <argument key="debug">true</argument>
         <argument key="generator_class">Symfony\Component\Routing\Generator\UrlGenerator</argument>
         <argument key="generator_base_class">Symfony\Component\Routing\Generator\UrlGenerator</argument>
@@ -2750,7 +2783,7 @@
         <service class="Symfony\Component\Cache\DoctrineProvider" public="false">
           <argument type="service">
             <service class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" public="false">
-              <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/var/cache/dev/annotations.php</argument>
+              <argument>/var/www/html/var/cache/dev/annotations.php</argument>
               <argument type="service" id="cache.annotations"/>
               <factory class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" method="create"/>
             </service>
@@ -2851,44 +2884,48 @@
       <tag name="twig.loader"/>
       <argument type="service" id="templating.locator"/>
       <argument type="service" id="templating.name_parser"/>
-      <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files</argument>
+      <argument>/var/www/html</argument>
       <call method="addPath">
-        <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/views</argument>
+        <argument>/var/www/html/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/views</argument>
         <argument>Framework</argument>
       </call>
       <call method="addPath">
-        <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle/Resources/views</argument>
+        <argument>/var/www/html/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle/Resources/views</argument>
         <argument>Security</argument>
       </call>
       <call method="addPath">
-        <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle/Resources/views</argument>
+        <argument>/var/www/html/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle/Resources/views</argument>
         <argument>Twig</argument>
       </call>
       <call method="addPath">
-        <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/symfony/swiftmailer-bundle/Resources/views</argument>
+        <argument>/var/www/html/vendor/symfony/swiftmailer-bundle/Resources/views</argument>
         <argument>Swiftmailer</argument>
       </call>
       <call method="addPath">
-        <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/doctrine/doctrine-bundle/Resources/views</argument>
+        <argument>/var/www/html/vendor/doctrine/doctrine-bundle/Resources/views</argument>
         <argument>Doctrine</argument>
       </call>
       <call method="addPath">
-        <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/acseo/graphic-bundle/ACSEO/Bundle/GraphicBundle/Resources/views</argument>
+        <argument>/var/www/html/vendor/acseo/graphic-bundle/ACSEO/Bundle/GraphicBundle/Resources/views</argument>
         <argument>ACSEOGraphic</argument>
       </call>
       <call method="addPath">
-        <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle/Resources/views</argument>
+        <argument>/var/www/html/vendor/twitter/bootstrap-bundle/Resources/views</argument>
+        <argument>TwitterBootstrap</argument>
+      </call>
+      <call method="addPath">
+        <argument>/var/www/html/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle/Resources/views</argument>
         <argument>Debug</argument>
       </call>
       <call method="addPath">
-        <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views</argument>
+        <argument>/var/www/html/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views</argument>
         <argument>WebProfiler</argument>
       </call>
       <call method="addPath">
-        <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/app/Resources/views</argument>
+        <argument>/var/www/html/app/Resources/views</argument>
       </call>
       <call method="addPath">
-        <argument>/Users/vladimir/Documents/Work/Levi9/Home/Currency/files/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form</argument>
+        <argument>/var/www/html/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form</argument>
       </call>
     </service>
     <service id="cache.app_clearer" alias="cache.default_clearer"/>

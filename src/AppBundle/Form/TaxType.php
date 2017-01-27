@@ -42,9 +42,6 @@ class TaxType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-//        dump($options); die;
-
         $builder
             ->add('sumHrn', NumberType::class)
             ->add('sum', NumberType::class)
@@ -55,7 +52,10 @@ class TaxType extends AbstractType
                     'rur' => 'RUB'
                 ]
             ])
-            ->add('date', DateType::class)
+            ->add('date', DateType::class, [
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+                ])
             ->add('save', SubmitType::class, array('label' => 'Submit'))
         ;
     }

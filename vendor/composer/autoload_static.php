@@ -19,6 +19,7 @@ class ComposerStaticInitd1d12712f9bc55fdf8d19536f1f9dd88
     public static $prefixLengthsPsr4 = array (
         'T' => 
         array (
+            'Twitter\\BootstrapBundle\\' => 24,
             'Tests\\' => 6,
         ),
         'S' => 
@@ -66,6 +67,10 @@ class ComposerStaticInitd1d12712f9bc55fdf8d19536f1f9dd88
     );
 
     public static $prefixDirsPsr4 = array (
+        'Twitter\\BootstrapBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twitter/bootstrap-bundle',
+        ),
         'Tests\\' => 
         array (
             0 => __DIR__ . '/../..' . '/tests',

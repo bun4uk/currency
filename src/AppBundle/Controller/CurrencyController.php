@@ -43,7 +43,7 @@ class CurrencyController extends Controller
         $updateTime = $this->get('app.currency_service')->getRateUpdateDate();
         $timeDiff = time() - strtotime($updateTime);
 
-        dump( $timeDiff );
+        dump($timeDiff);
 
         if ($timeDiff > (60 * 60)) {
             $currencyService->saveRate($currencyList);
@@ -73,7 +73,7 @@ class CurrencyController extends Controller
             throw new Exception('Currency not found!');
         }
 
-        $buyRateData =[];
+        $buyRateData = [];
         $saleRateData = [];
 
         $rates = $this->getDoctrine()->getRepository(Rate::class)->findBy(['currencyId' => $this->currencyIds[$currency]]);
@@ -113,28 +113,26 @@ class CurrencyController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $formData = $form->getData();
-            $hrnRate = $bankApiService->getCurrencyRateToHryvna($formData['currency'], $formData['date']->format('Ymd'));
-            $sumHrn = $formData['sum'] * $hrnRate[0]['rate'];
-            $tax = $sumHrn * 0.05;
+            $formData = $form->getData(); //data from form
+            $hryvnaRate = $bankApiService->getCurrencyRateToHryvna(
+                $formData['currency'],
+                $formData['date']->format('Ymd')
+            );
+
+            $sumHryvna = $formData['sumHrn'];
+            $sumCurrency = $formData['sum'] * $hryvnaRate[0]['rate'];
+            $hryvnaTax = $sumHryvna * 0.05;
+            $currencyTax = $sumCurrency * 0.05;
 
             return $this->render(
                 'currency/tax_result.html.twig',
                 [
-                    'hrnRate' => $hrnRate[0],
-                    'sumHrn' => $sumHrn,
-                    'tax' => $tax,
+                    'hrnRate' => $hryvnaRate[0],
+                    'total' => $sumHryvna + $sumCurrency,
+                    'tax' => $hryvnaTax + $currencyTax,
                     'formData' => $formData
                 ]
             );
-
-
-
-            dump($hrnRate);
-            dump($sumHrn);
-            dump($tax);
-
-            die;
         }
 
 
@@ -144,7 +142,6 @@ class CurrencyController extends Controller
 
 
     }
-
 
 
 }
