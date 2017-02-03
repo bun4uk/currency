@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new ACSEO\Bundle\GraphicBundle\ACSEOGraphicBundle(),
             new Twitter\BootstrapBundle\TwitterBootstrapBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
