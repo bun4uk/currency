@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Rate
  * @package AppBundle\Entity
- * @ORM\Entity(repositoryClass="AppBundle\Entity\RateRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\RateRepository")
  * @ORM\Table(name="rate")
  * @ORM\HasLifecycleCallbacks()
  */

@@ -16,6 +16,8 @@ use AppBundle\Entity\Currency;
 use AppBundle\Entity\Rate;
 use ACSEO\Bundle\GraphicBundle\Graphic\Flot\Type\TimeLine;
 use AppBundle\Form\TaxType;
+use AppBundle\Entity\Tax;
+use AppBundle\Repository\RateRepository;
 
 class CurrencyController extends Controller
 {
@@ -108,19 +110,29 @@ class CurrencyController extends Controller
     public function taxAction(Request $request)
     {
         $bankApiService = $this->get('app.bank_api');
-        $form = $this->createForm(TaxType::class);
+        $form = $this->createForm(
+            TaxType::class,
+            null
+//            ['ss' => 'ff']
+        );
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var Tax
+             */
             $formData = $form->getData(); //data from form
+
+//            dump($formData); die;
+
             $hryvnaRate = $bankApiService->getCurrencyRateToHryvna(
-                $formData['currency'],
-                $formData['date']->format('Ymd')
+                $formData->getCurrency(),
+                $formData->getDate()->format('Ymd')
             );
 
-            $sumHryvna = $formData['sumHrn'];
-            $sumCurrency = $formData['sum'] * $hryvnaRate[0]['rate'];
+            $sumHryvna = $formData->getSumHrn();
+            $sumCurrency = $formData->getSumForeignCurrency() * $hryvnaRate[0]['rate'];
             $hryvnaTax = $sumHryvna * 0.05;
             $currencyTax = $sumCurrency * 0.05;
 

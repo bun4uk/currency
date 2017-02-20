@@ -3,7 +3,7 @@
 {% block body %}
     {{ dump() }}
     <h2>Курс {{ formData.currency }} на {{ hrnRate.exchangedate }} - {{ hrnRate.rate }} грн</h2>
-    <p>Получено в {{ formData.currency }} - {{ formData.sum }} {{ formData.currency }}</p>
+    <p>Получено в {{ formData.currency }} - {{ formData.sumForeignCurrency }} {{ formData.currency }}</p>
     <p>Получено в грн - {{ total }} грн</p>
     <p>Сумма единого налога - {{ tax }}грн</p>
 {% endblock %}

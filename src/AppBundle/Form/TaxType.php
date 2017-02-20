@@ -17,6 +17,9 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use AppBundle\Service\CurrencyService;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Entity\Tax;
+
 class TaxType extends AbstractType
 {
     /**
@@ -42,9 +45,12 @@ class TaxType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+//        dump($options); die;
+
         $builder
             ->add('sumHrn', NumberType::class)
-            ->add('sum', NumberType::class)
+            ->add('sumForeignCurrency', NumberType::class)
             ->add('currency', ChoiceType::class, [
                 'choices' => [
                     'usd' => 'USD',
@@ -58,6 +64,11 @@ class TaxType extends AbstractType
                 ])
             ->add('save', SubmitType::class, array('label' => 'Submit'))
         ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(['data_class' => Tax::class,]);
     }
 
 }

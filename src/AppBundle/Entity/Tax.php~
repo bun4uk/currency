@@ -1,0 +1,60 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: v.bunchuk
+ * Date: 06.02.17
+ * Time: 17:31
+ */
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\User;
+use AppBundle\Entity\Currency;
+
+/**
+ * Class Tax
+ * @package AppBundle\Entity
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="tax")
+ */
+class Tax
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $userId;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2)
+     */
+    private $sumHrn;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2)
+     */
+    private $sumForeignCurrency;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\OneToOne(targetEntity="Currency")
+     * @ORM\JoinColumn(name="currency_id", referencedColumnName="id")
+     */
+    private $currency;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date;
+
+}

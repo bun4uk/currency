@@ -1,8 +1,6 @@
 # To get started with security, check out the documentation:
 # http://symfony.com/doc/current/book/security.html
 security:
-    access_control:
-        - { path: /admin, roles: ROLE_ADMIN }
 
     encoders:
             FOS\UserBundle\Model\UserInterface: bcrypt
@@ -30,4 +28,5 @@ security:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/tax, role: ROLE_USER}
         - { path: ^/admin/, role: ROLE_ADMIN }
