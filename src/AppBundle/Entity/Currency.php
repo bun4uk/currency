@@ -29,7 +29,7 @@ class Currency
     /**
      * @ORM\Column(type="integer")
      */
-    private $rateId;
+    private $rate;
 
     /**
      * Get id
@@ -110,6 +110,6 @@ class Currency
      */
     public function getRateId()
     {
-        return $this->rateId;
+        return $this->rate;
     }
 }

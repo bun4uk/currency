@@ -29,11 +29,12 @@ class Tax
     private $id;
 
     /**
+     *
      * @ORM\Column(type="integer")
      * @ORM\OneToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $userId;
+    private $user;
 
     /**
      * @ORM\Column(type="decimal", scale=2)
@@ -57,6 +58,11 @@ class Tax
      */
     private $date;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $taxSum;
+
 
     /**
      * Get id
@@ -69,15 +75,15 @@ class Tax
     }
 
     /**
-     * Set userId
+     * Set user
      *
-     * @param integer $userId
+     * @param User $user
      *
      * @return Tax
      */
-    public function setUserId($userId)
+    public function setUser($user)
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
@@ -85,11 +91,11 @@ class Tax
     /**
      * Get userId
      *
-     * @return integer
+     * @return User
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 
     /**
@@ -186,5 +192,29 @@ class Tax
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set currency
+     *
+     * @param float $taxSum
+     *
+     * @return Tax
+     */
+    public function setTaxSum($taxSum)
+    {
+        $this->taxSum = $taxSum;
+
+        return $this;
+    }
+
+    /**
+     * Get currency
+     *
+     * @return float
+     */
+    public function getTaxSum()
+    {
+        return $this->taxSum;
     }
 }

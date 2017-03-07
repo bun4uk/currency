@@ -76,7 +76,18 @@ class CurrencyService
 
     public function getCurrencyChoices()
     {
-        return ($this->currencyRepository->getCurrencyChoices());
+        $currencyList = $this->currencyRepository->getCurrencyChoices();
+        $currencies = [];
+
+        foreach ($currencyList as $key=>$value) {
+            //continue if BTC
+            if ($value['name'] === 'BTC') {
+                continue;
+            }
+            $currencies[$value['name']] = $value['id'];
+        }
+
+        return $currencies;
     }
 
 }

@@ -109,11 +109,16 @@ class CurrencyController extends Controller
      */
     public function taxAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
         $bankApiService = $this->get('app.bank_api');
+        $currencyRepository = $this->getDoctrine()->getRepository(Currency::class);
         $form = $this->createForm(
             TaxType::class,
-            null
-//            ['ss' => 'ff']
+            null,
+            [
+                'currency_service' => $this->get('app.currency_service'),
+                'currency_repository' => $currencyRepository
+            ]
         );
 
         $form->handleRequest($request);
@@ -124,10 +129,8 @@ class CurrencyController extends Controller
              */
             $formData = $form->getData(); //data from form
 
-//            dump($formData); die;
-
             $hryvnaRate = $bankApiService->getCurrencyRateToHryvna(
-                $formData->getCurrency(),
+                $currencyRepository->findOneBy(['id' => $formData->getCurrency()])->getName(),
                 $formData->getDate()->format('Ymd')
             );
 
@@ -135,6 +138,11 @@ class CurrencyController extends Controller
             $sumCurrency = $formData->getSumForeignCurrency() * $hryvnaRate[0]['rate'];
             $hryvnaTax = $sumHryvna * 0.05;
             $currencyTax = $sumCurrency * 0.05;
+
+            $formData->setUser($this->getUser()->getId());
+            $formData->setTaxSum($hryvnaTax + $currencyTax);
+            $em->persist($formData);
+            $em->flush();
 
             return $this->render(
                 'currency/tax_result.html.twig',
@@ -151,7 +159,21 @@ class CurrencyController extends Controller
         return $this->render('currency/tax.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
 
+    /**
+     * @Route(
+     *     "/tax/history",
+     *     name="tax history"
+     * )
+     *
+     */
+    public function taxHistoryAction(Request $request)
+    {
+        $taxRepository = $this->getDoctrine()->getRepository(Tax::class);
+
+        dump($taxRepository->findBy(['user' => $this->getUser()->getId()]));
+        die;
 
     }
 

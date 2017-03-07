@@ -16,5 +16,4 @@ services:
 
     app.form.tax:
         class:  AppBundle\Form\TaxType
-        arguments:
-            - '@app.currency_service'
+        arguments: ["@app.currency_service"]
