@@ -39,3 +39,5 @@
 /mysql
 /currency
 /performance_schema
+ibdata1
+ib_logfile0
