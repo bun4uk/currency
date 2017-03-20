@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Service\CurrencyService;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -38,8 +39,12 @@ class TaxType extends AbstractType
         $builder
             ->add('sumHrn', NumberType::class)
             ->add('sumForeignCurrency', NumberType::class)
-            ->add('currency', ChoiceType::class, [
-                'choices' => $currencyService->getCurrencyChoices()
+//            ->add('currency', ChoiceType::class, [
+//                'choices' => $currencyService->getCurrencyChoices()
+//            ])
+            ->add('currency', EntityType::class, [
+                'class' => 'AppBundle:Currency',
+                'choice_label' => 'name',
             ])
             ->add('date', DateType::class, [
                 'widget' => 'single_text',
@@ -59,7 +64,7 @@ class TaxType extends AbstractType
         $currencyRepository = $event->getForm()->getConfig()->getOption('currency_repository');
         $data['currency'] = $currencyRepository->findOneBy(['id' => $currencyId]);
 
-        dump($data); die;
+//        dump($data); die;
 
         $event->setData($data);
     }

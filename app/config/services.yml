@@ -17,3 +17,9 @@ services:
     app.form.tax:
         class:  AppBundle\Form\TaxType
         arguments: ["@app.currency_service"]
+
+    app.twig_extension:
+            class: AppBundle\Twig\AppExtension
+            public: false
+            tags:
+                - { name: twig.extension }

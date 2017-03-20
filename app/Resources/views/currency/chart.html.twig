@@ -1,13 +1,12 @@
-{#{% extends "base.html.twig" %}#}
+{% extends "base.html.twig" %}
 
-{% block menu %}
-    {% include 'currency/menu.html.twig' %}
-{% endblock %}
 
 {% block body %}
+
+    {% include 'currency/userBlock.html.twig' %}
+    {% include 'currency/menu.html.twig' %}
     <!-- remember to give width and height to your graph containers -->
-    <div id="buyTimeline" style="width:500px;height:20%"></div>
-    <div id="saleTimeline" style="width:500px;height:20%"></div>
+    <div id="buyTimeline" style="width:500px;height:200px"></div>
 
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>

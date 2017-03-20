@@ -139,7 +139,7 @@ class CurrencyController extends Controller
             $hryvnaTax = $sumHryvna * 0.05;
             $currencyTax = $sumCurrency * 0.05;
 
-            $formData->setUser($this->getUser()->getId());
+            $formData->setUser($this->getUser());
             $formData->setTaxSum($hryvnaTax + $currencyTax);
             $em->persist($formData);
             $em->flush();
@@ -171,9 +171,14 @@ class CurrencyController extends Controller
     public function taxHistoryAction(Request $request)
     {
         $taxRepository = $this->getDoctrine()->getRepository(Tax::class);
+        $taxes = $taxRepository->findBy(['user' => $this->getUser()->getId()], ['date'=>'desc']);
 
-        dump($taxRepository->findBy(['user' => $this->getUser()->getId()]));
-        die;
+
+        return $this->render('currency/taxHistory.html.twig', array(
+            'taxes' => $taxes,
+        ));
+
+
 
     }
 

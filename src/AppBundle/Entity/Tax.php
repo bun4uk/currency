@@ -30,8 +30,7 @@ class Tax
 
     /**
      *
-     * @ORM\Column(type="integer")
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
@@ -47,8 +46,7 @@ class Tax
     private $sumForeignCurrency;
 
     /**
-     * @ORM\Column(type="integer")
-     * @ORM\OneToOne(targetEntity="Currency")
+     * @ORM\ManyToOne(targetEntity="Currency")
      * @ORM\JoinColumn(name="currency_id", referencedColumnName="id")
      */
     private $currency;

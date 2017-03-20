@@ -1,0 +1,54 @@
+{% extends "base.html.twig" %}
+
+
+{% block body %}
+    {% include 'currency/userBlock.html.twig' %}
+    {% include 'currency/menu.html.twig' %}
+    <div class="container">
+
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Сумма в UAH</th>
+                <th>Сумма в Валюте</th>
+                <th>Валюта</th>
+                <th>Дата</th>
+                <th>Сумма ЕН</th>
+                <th>Квартал</th>
+            </tr>
+            {% for tax in taxes %}
+                <tr>
+                    <td>
+                        {{ tax.id }}
+                    </td>
+                    <td>
+                        {{ tax.sumHrn }}
+                    </td>
+                    <td>
+                        {{ tax.sumForeignCurrency }}
+                    </td>
+                    <td>
+                        {{ tax.currency.name }}
+                    </td>
+                    <td>
+                        {{ tax.date|date("m/d/Y") }}
+                    </td>
+                    <td>
+                        {{ tax.taxSum }}
+                    </td>
+                    <td>
+                        {{ tax.date|quarter() }}
+                    </td>
+
+
+
+
+
+
+
+
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
