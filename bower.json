@@ -1,0 +1,21 @@
+{
+  "name": "files",
+  "homepage": "https://github.com/bun4uk/currency",
+  "authors": [
+    "v.bunchuk <v.bunchuk@levi9.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "web/assets/vendor/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
