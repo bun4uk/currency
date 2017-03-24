@@ -38,9 +38,17 @@ class CurrencyController extends Controller
         $bankApiService = $this->get('app.bank_api');
 
         $currencyList = $bankApiService->getPrivatCurrencyList();
+        $btcPrice = $bankApiService->getBitcoinPrice();
+        $currencyList[] = [
+            "ccy" => "BTC",
+            "base_ccy" => "USD",
+            "buy" => $btcPrice['USD']['buy'],
+            "sale" => $btcPrice['USD']['sell'],
+        ];
 
         dump($currencyList);
-        //die;
+        dump($btcPrice);
+//        die;
 
         $updateTime = $this->get('app.currency_service')->getRateUpdateDate();
         $timeDiff = time() - strtotime($updateTime);
@@ -78,7 +86,14 @@ class CurrencyController extends Controller
         $buyRateData = [];
         $saleRateData = [];
 
-        $rates = $this->getDoctrine()->getRepository(Rate::class)->findBy(['currencyId' => $this->currencyIds[$currency]]);
+        $rates = $this->getDoctrine()->getRepository(Rate::class)->findBy(
+            [
+                'currencyId' => $this->currencyIds[$currency]
+            ],
+            [
+                'creationDate' => 'ASC'
+            ]
+        );
 
         foreach ($rates as $rate) {
             $buyRateData[] = [
@@ -90,6 +105,8 @@ class CurrencyController extends Controller
                 $rate->getSaleRate()
             ];
         }
+
+//        dump($buyRateData); die;
 
         $buyTimeline = new TimeLine("#buyTimeline", $buyRateData);
         $saleTimeline = new TimeLine("#saleTimeline", $saleRateData);
@@ -177,9 +194,36 @@ class CurrencyController extends Controller
         return $this->render('currency/taxHistory.html.twig', array(
             'taxes' => $taxes,
         ));
+    }
 
+    /**
+     * @Route(
+     *     "/btchistory",
+     *     name="btc history"
+     * )
+     *
+     */
+    public function btcHistoryAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $bankApiService = $this->get('app.bank_api');
+        $btcChart = $bankApiService->getBitcoinPriceChart()['values'];
 
+        foreach ($btcChart as $price) {
+            $rate = new Rate();
+            $rate->setCurrencyId(4);
+            $rate->setCreationDate(\DateTime::createFromFormat( 'U', $price['x'] ));
+            $rate->setBuyRate($price['y']);
+            $rate->setSaleRate($price['y']);
+//            $em->persist($rate);
+//            $em->flush();
+//            $em->clear();
 
+//            dump($rate);
+        }
+
+        echo 'DONE!';
+        die;
     }
 
 
