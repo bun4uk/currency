@@ -4,24 +4,25 @@
     {% include 'currency/userBlock.html.twig' %}
     {% include 'currency/menu.html.twig' %}
 
-    <table>
-        <thead>
-        <tr>
-            <th colspan="2">Валюта</th>
-            <th>Покупка</th>
-            <th>Продажа</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for currency in currencies %}
+    <div class="container">
+        <table class="table">
+            <thead>
             <tr>
-                <td>{{ currency.ccy }}</td>
-                <td>{{ currency.base_ccy }}</td>
-                <td>{{ currency.buy | round(3, 'ceil') }}</td>
-                <td>{{ currency.sale | round(3, 'ceil') }}</td>
+                <th colspan="2">Валюта</th>
+                <th>Покупка</th>
+                <th>Продажа</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+            </thead>
+            <tbody>
+            {% for currency in currencies %}
+                <tr>
+                    <td>{{ currency.ccy }}</td>
+                    <td>{{ currency.base_ccy }}</td>
+                    <td>{{ currency.buy | round(3, 'ceil') }}</td>
+                    <td>{{ currency.sale | round(3, 'ceil') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
