@@ -46,18 +46,18 @@ class CurrencyController extends Controller
             "sale" => $btcPrice['USD']['sell'],
         ];
 
-        dump($currencyList);
-        dump($btcPrice);
+//        dump($currencyList);
+//        dump($btcPrice);
 //        die;
 
         $updateTime = $this->get('app.currency_service')->getRateUpdateDate();
         $timeDiff = time() - strtotime($updateTime);
 
-        dump($timeDiff);
+//        dump($timeDiff);
 
         if ($timeDiff > (60 * 60)) {
             $currencyService->saveRate($currencyList);
-            dump('currency was updated');
+//            dump('currency was updated');
         }
 
 
