@@ -33,12 +33,10 @@
         "twitter/bootstrap-bundle": "^2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "sonata-project/admin-bundle": "^3.13",
-        "sonata-project/doctrine-orm-admin-bundle": "^3.1"
-
-    },
-    "require-dev": {
+        "sonata-project/doctrine-orm-admin-bundle": "^3.1",
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^3.0"
+
     },
     "scripts": {
         "post-install-cmd": [
