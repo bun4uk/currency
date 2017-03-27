@@ -10,9 +10,6 @@
 /app/logs/*
 !app/logs/.gitkeep
 
-# Parameters
-/app/config/parameters.yml
-
 # Managed by Composer
 /app/bootstrap.php.cache
 /bin/*

@@ -1,6 +1,7 @@
 # This file is auto-generated during the composer install
 parameters:
-    database_host: mysql
+#    database_host: mysql
+    database_host: mysql://bc0b44090fe4b7:0e77631f@eu-cdbr-west-01.cleardb.com/heroku_1b8216d43366b1b?reconnect=true
     database_port: null
     database_name: currency
     database_user: currency
