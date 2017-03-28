@@ -3,7 +3,7 @@
 {% block body %}
     {% include 'currency/userBlock.html.twig' %}
     {% include 'currency/menu.html.twig' %}
-    {{ dump() }}
+    {#{{ dump() }}#}
     <h2>Курс {{ formData.currency.name }} на {{ hrnRate.exchangedate }} - {{ hrnRate.rate }} грн</h2>
     <p>Получено в {{ formData.currency.name }} - {{ formData.sumForeignCurrency }} {{ formData.currency.name }}</p>
     <p>Получено в грн - {{ total }} грн</p>
