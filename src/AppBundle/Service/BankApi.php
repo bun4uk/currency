@@ -40,11 +40,16 @@ class BankApi
      * @param $currency
      * @param $date
      * @return array
+     * @throws \Exception
      */
     public function getCurrencyRateToHryvna($currency, $date)
     {
         $service_url = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=$currency&date=$date&json";
         $result = json_decode(file_get_contents($service_url), true);
+
+        if(!$result) {
+            throw new \Exception('Currency rates temporary unavailable');
+        }
 
         return $result;
     }

@@ -146,10 +146,15 @@ class CurrencyController extends Controller
              */
             $formData = $form->getData(); //data from form
 
-            $hryvnaRate = $bankApiService->getCurrencyRateToHryvna(
-                $currencyRepository->findOneBy(['id' => $formData->getCurrency()])->getName(),
-                $formData->getDate()->format('Ymd')
-            );
+            try {
+                $hryvnaRate = $bankApiService->getCurrencyRateToHryvna(
+                    $currencyRepository->findOneBy(['id' => $formData->getCurrency()])->getName(),
+                    $formData->getDate()->format('Ymd')
+                );
+            } catch (\Exception $e) {
+                return new Response('Данные нацбанка о курсе валют недоступны. Приносим свои извинения.');
+            }
+
 
             $sumHryvna = $formData->getSumHrn();
             $sumCurrency = $formData->getSumForeignCurrency() * $hryvnaRate[0]['rate'];
