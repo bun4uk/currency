@@ -1,4 +1,5 @@
 Payment manager, currency rate chart and tax calculator
+
 [![Heroku](https://heroku-badge.herokuapp.com/?app=immense-basin-22253)]
 =============
 
