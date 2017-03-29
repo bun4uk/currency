@@ -15,6 +15,7 @@
                 <th>Дата</th>
                 <th>Сумма ЕН</th>
                 <th>Квартал</th>
+                <th></th>
             </tr>
             {% for tax in taxes %}
                 <tr>
@@ -38,6 +39,9 @@
                     </td>
                     <td>
                         {{ tax.date|quarter() }}
+                    </td>
+                    <td>
+                        <a href="{{ path('remove payment', {'paymentId' : tax.id}) }}">Remove</a>
                     </td>
 
 

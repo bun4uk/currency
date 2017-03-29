@@ -6,6 +6,7 @@ namespace AppBundle\Controller;
 use AppBundle\AppBundle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -182,6 +183,24 @@ class CurrencyController extends Controller
         return $this->render('currency/tax.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
+
+    /**
+     * @Route(
+     *     "/tax/remove/{paymentId}",
+     *     name="remove payment"
+     * )
+     *
+     */
+    public function removePaymentAction($paymentId)
+    {
+        $taxRepository = $this->getDoctrine()->getRepository(Tax::class);
+        $em = $this->getDoctrine()->getManager();
+        $payment = $taxRepository->findOneBy(['id' => $paymentId]);
+        $em->remove($payment);
+        $em->flush();
+
+        return $this->redirectToRoute('tax history');
     }
 
     /**
