@@ -35,7 +35,7 @@
                         {{ tax.date|date("m/d/Y") }}
                     </td>
                     <td>
-                        {{ tax.taxSum }}
+                        {{ tax.taxSum|round(2, 'ceil') }}
                     </td>
                     <td>
                         {{ tax.date|quarter() }}
@@ -43,14 +43,6 @@
                     <td>
                         <a href="{{ path('remove payment', {'paymentId' : tax.id}) }}">Remove</a>
                     </td>
-
-
-
-
-
-
-
-
                 </tr>
             {% endfor %}
         </table>
