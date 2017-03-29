@@ -5,6 +5,7 @@
     {% include 'currency/userBlock.html.twig' %}
     {% include 'currency/menu.html.twig' %}
     <!-- remember to give width and height to your graph containers -->
+    <h2>Chart - {{ currency|upper }}</h2>
     <div id="buyTimeline" style="width:80%;height:350px;"></div>
     <div id="saleTimeline" style="width:80%;height:350px;"></div>
 {% endblock %}

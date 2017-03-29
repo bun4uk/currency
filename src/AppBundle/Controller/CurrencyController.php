@@ -113,7 +113,8 @@ class CurrencyController extends Controller
 
         return $this->render('currency/chart.html.twig', array(
             'buyTimeline' => $buyTimeline,
-            'saleTimeline' => $saleTimeline
+            'saleTimeline' => $saleTimeline,
+            'currency' => $currency
         ));
     }
 
