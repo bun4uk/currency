@@ -11,6 +11,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Currency;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Tax
@@ -36,16 +37,19 @@ class Tax
     private $user;
 
     /**
+     * @Assert\GreaterThanOrEqual(0)
      * @ORM\Column(type="decimal", scale=2)
      */
     private $sumHrn;
 
     /**
+     * @Assert\GreaterThanOrEqual(0)
      * @ORM\Column(type="decimal", scale=2)
      */
     private $sumForeignCurrency;
 
     /**
+     * @Assert\GreaterThanOrEqual(0)
      * @ORM\Column(type="decimal", scale=2)
      */
     private $totalSumHrn;
