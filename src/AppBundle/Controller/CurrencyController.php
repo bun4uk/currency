@@ -162,9 +162,11 @@ class CurrencyController extends Controller
             $sumCurrency = $formData->getSumForeignCurrency() * $hryvnaRate[0]['rate'];
             $hryvnaTax = $sumHryvna * 0.05;
             $currencyTax = $sumCurrency * 0.05;
+            $totalSumHrn = $sumHryvna + $sumCurrency;
 
             $formData->setUser($this->getUser());
             $formData->setTaxSum($hryvnaTax + $currencyTax);
+            $formData->setTotalSumHrn($totalSumHrn);
             $em->persist($formData);
             $em->flush();
 

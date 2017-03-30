@@ -5,12 +5,12 @@
     {% include 'currency/userBlock.html.twig' %}
     {% include 'currency/menu.html.twig' %}
     <div class="container">
-
         <table class="table">
             <tr>
                 <th>Id</th>
                 <th>Сумма в UAH</th>
                 <th>Сумма в Валюте</th>
+                <th>Общая сумма в UAH</th>
                 <th>Валюта</th>
                 <th>Дата</th>
                 <th>Сумма ЕН</th>
@@ -27,6 +27,9 @@
                     </td>
                     <td>
                         {{ tax.sumForeignCurrency }}
+                    </td>
+                    <td>
+                        {{ tax.totalSumHrn }}
                     </td>
                     <td>
                         {{ tax.currency.name }}

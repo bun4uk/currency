@@ -46,6 +46,11 @@ class Tax
     private $sumForeignCurrency;
 
     /**
+     * @ORM\Column(type="decimal", scale=2)
+     */
+    private $totalSumHrn;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Currency")
      * @ORM\JoinColumn(name="currency_id", referencedColumnName="id")
      */
@@ -214,5 +219,27 @@ class Tax
     public function getTaxSum()
     {
         return $this->taxSum;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getTotalSumHrn()
+    {
+        return $this->totalSumHrn;
+    }
+
+
+    /**
+     * @param float $totalSum
+     * @return $this
+     */
+    public function setTotalSumHrn(float $totalSum)
+    {
+        $this->totalSumHrn = $totalSum;
+
+        return $this;
     }
 }
