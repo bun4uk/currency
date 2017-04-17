@@ -16,8 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class Tax
  * @package AppBundle\Entity
- *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\PaymentRepository")
  * @ORM\Table(name="tax")
  */
 class Tax

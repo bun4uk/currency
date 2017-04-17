@@ -5,6 +5,16 @@
     {% include 'currency/userBlock.html.twig' %}
     {% include 'currency/menu.html.twig' %}
     <div class="container">
+        <p>
+            <button
+                    type="button"
+                    class="btn btn-success"
+                    data-toggle="modal"
+                    data-target="#modalPaymentReport"
+            >
+                Сформировать отчет
+            </button>
+        </p>
         <table class="table">
             <tr>
                 <th>Id</th>
@@ -58,10 +68,9 @@
             {% endfor %}
         </table>
 
-        <!-- Modal -->
+        <!-- Modal Delete payment -->
         <div id="modalDeleteConfirmation" class="modal fade" role="dialog">
             <div class="modal-dialog modal-sm">
-
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
@@ -75,6 +84,32 @@
                         <a href="" class="btn btn-danger">УДАЛИТЬ</a>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
                     </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="modalPaymentReport" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    {{ form_start(form) }}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Выберите кватрал</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            {{ form_label(form.quarters) }}
+                            {{ form_widget(form.quarters, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form) }}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        {{ form_widget(form.submit, {'attr': {'class': 'btn btn-success'}}) }}
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                    </div>
+                    {{ form_end(form) }}
                 </div>
 
             </div>

@@ -10,9 +10,11 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Currency;
 use AppBundle\Entity\Rate;
+use AppBundle\Entity\Repository\PaymentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use AppBundle\Entity\Repository\CurrencyRepository;
-
+use AppBundle\Entity\User;
+use AppBundle\Entity\Tax;
 
 class CurrencyService
 {
@@ -30,6 +32,11 @@ class CurrencyService
     protected $currencyRepository;
 
     /**
+     * @var PaymentRepository
+     */
+    protected $paymentRepository;
+
+    /**
      * CurrencyService constructor.
      * @param EntityManagerInterface $entityManager
      */
@@ -37,6 +44,7 @@ class CurrencyService
     {
         $this->entityManager = $entityManager;
         $this->currencyRepository = $entityManager->getRepository(Currency::class);
+        $this->paymentRepository = $entityManager->getRepository(Tax::class);
     }
 
     public function updateCurrentRate($currencyList)
@@ -79,7 +87,7 @@ class CurrencyService
         $currencyList = $this->currencyRepository->getCurrencyChoices();
         $currencies = [];
 
-        foreach ($currencyList as $key=>$value) {
+        foreach ($currencyList as $key => $value) {
             //continue if BTC
             if ($value['name'] === 'BTC') {
                 continue;
@@ -88,6 +96,47 @@ class CurrencyService
         }
 
         return $currencies;
+    }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    public function getAvailableQuarters(User $user)
+    {
+        $paymentDates = $this->paymentRepository->getPaymentsDatesByUserId($user->getId());
+        $availableQuarters = [];
+        $currentYear = 1;
+        $currentQuarter = 0;
+        foreach ($paymentDates as $paymentDate) {
+            $year = $paymentDate['date']->format('Y');
+            $month = $paymentDate['date']->format('n');
+
+            switch (true) {
+                case ($month <= 3):
+                    $quarter = 'I';
+                    break;
+                case ($month <= 6):
+                    $quarter = 'II';
+                    break;
+                case ($month <= 9):
+                    $quarter = 'III';
+                    break;
+                case ($month <= 12):
+                    $quarter = 'IV';
+                    break;
+            }
+
+            if ($year == $currentYear && $quarter === $currentQuarter) {
+                continue;
+            }
+
+            $availableQuarters["$quarter квартал $year"] = "$quarter квартал $year";
+            $currentYear = $year;
+            $currentQuarter = $quarter;
+        }
+
+        return $availableQuarters;
     }
 
 }

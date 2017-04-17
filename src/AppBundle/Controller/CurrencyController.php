@@ -17,8 +17,9 @@ use AppBundle\Entity\Currency;
 use AppBundle\Entity\Rate;
 use ACSEO\Bundle\GraphicBundle\Graphic\Flot\Type\TimeLine;
 use AppBundle\Form\TaxType;
+use AppBundle\Form\QuarterReportType;
 use AppBundle\Entity\Tax;
-use AppBundle\Repository\RateRepository;
+use AppBundle\Entity\Repository\RateRepository;
 
 class CurrencyController extends Controller
 {
@@ -215,12 +216,36 @@ class CurrencyController extends Controller
     public function taxHistoryAction(Request $request)
     {
         $taxRepository = $this->getDoctrine()->getRepository(Tax::class);
-        $taxes = $taxRepository->findBy(['user' => $this->getUser()->getId()], ['date'=>'desc']);
 
+        $currencyService = $this->get('app.currency_service');
+        $availableQuarters = $currencyService->getAvailableQuarters($this->getUser());
+
+        $taxes = $taxRepository->findBy(['user' => $this->getUser()->getId()], ['date'=>'desc']);
+        $form = $this->createForm(
+            QuarterReportType::class,
+            null,
+            [
+                'available_quarters' => $availableQuarters,
+                'action'=>$this->generateUrl('fff')
+            ]
+        );
 
         return $this->render('currency/taxHistory.html.twig', array(
             'taxes' => $taxes,
+            'form' => $form->createView()
         ));
+    }
+
+    /**
+     * @Route(
+     *     "/fff",
+     *     name="fff"
+     * )
+     *
+     */
+    public function FFF()
+    {
+        return new Response('VASIAN LOX');
     }
 
     /**
