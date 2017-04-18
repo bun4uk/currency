@@ -226,7 +226,7 @@ class CurrencyController extends Controller
             null,
             [
                 'available_quarters' => $availableQuarters,
-                'action'=>$this->generateUrl('fff')
+                'action'=>$this->generateUrl('payment_report')
             ]
         );
 
@@ -238,14 +238,14 @@ class CurrencyController extends Controller
 
     /**
      * @Route(
-     *     "/fff",
-     *     name="fff"
+     *     "/tax/report",
+     *     name="payment_report"
      * )
      *
      */
-    public function FFF()
+    public function PaymentReportAction()
     {
-        return new Response('VASIAN LOX');
+        return new Response('CurrencyController::ReportAction()');
     }
 
     /**
