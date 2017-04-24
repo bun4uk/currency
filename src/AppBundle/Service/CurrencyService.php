@@ -111,19 +111,20 @@ class CurrencyService
         foreach ($paymentDates as $paymentDate) {
             $year = $paymentDate['date']->format('Y');
             $month = $paymentDate['date']->format('n');
+            $quarter = 'I';
 
             switch (true) {
                 case ($month <= 3):
-                    $quarter = 'I';
+                    $quarter = 1;
                     break;
                 case ($month <= 6):
-                    $quarter = 'II';
+                    $quarter = 2;
                     break;
                 case ($month <= 9):
-                    $quarter = 'III';
+                    $quarter = 3;
                     break;
                 case ($month <= 12):
-                    $quarter = 'IV';
+                    $quarter = 4;
                     break;
             }
 
@@ -131,7 +132,7 @@ class CurrencyService
                 continue;
             }
 
-            $availableQuarters["$quarter квартал $year"] = "$quarter квартал $year";
+            $availableQuarters["$quarter квартал $year"] = "$year-$quarter";
             $currentYear = $year;
             $currentQuarter = $quarter;
         }

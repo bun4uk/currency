@@ -13,11 +13,37 @@ use AppBundle\Entity\Tax;
  */
 class PaymentRepository extends EntityRepository
 {
+    /**
+     * @param int $userId
+     * @return array
+     */
     public function getPaymentsDatesByUserId(int $userId)
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery('SELECT t.date FROM AppBundle:Tax t WHERE t.user = :user_id ORDER BY t.date DESC');
         $query->setParameter('user_id', $userId);
+
+        return $query->getResult();
+    }
+
+    /**
+     * @param $quarter
+     * @param $year
+     * @param $userId
+     * @return array
+     */
+    public function getPaymentsByQuarter($quarter, $year, $userId)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT t FROM AppBundle:Tax t 
+                WHERE QUARTER(DATE_FORMAT(t.date, \'%Y%m%d\')) = :quarter 
+                AND t.user = :user_id
+                AND YEAR(t.date) = :year'
+        );
+        $query->setParameter('quarter', $quarter);
+        $query->setParameter('user_id', $userId);
+        $query->setParameter('year', $year);
 
         return $query->getResult();
     }

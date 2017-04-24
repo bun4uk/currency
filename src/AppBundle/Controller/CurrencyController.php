@@ -123,7 +123,7 @@ class CurrencyController extends Controller
     /**
      * @Route(
      *     "/tax",
-     *     name="tax calculator"
+     *     name="tax_calculator"
      * )
      *
      */
@@ -149,14 +149,14 @@ class CurrencyController extends Controller
              */
             $formData = $form->getData(); //data from form
 
-            try {
+//            try {
                 $hryvnaRate = $bankApiService->getCurrencyRateToHryvna(
                     $currencyRepository->findOneBy(['id' => $formData->getCurrency()])->getName(),
                     $formData->getDate()->format('Ymd')
                 );
-            } catch (\Exception $e) {
-                return new Response('Данные нацбанка о курсе валют недоступны. Приносим свои извинения.');
-            }
+//            } catch (\Exception $e) {
+//                return new Response('Данные нацбанка о курсе валют недоступны. Приносим свои извинения.');
+//            }
 
 
             $sumHryvna = $formData->getSumHrn();
@@ -203,13 +203,13 @@ class CurrencyController extends Controller
         $em->remove($payment);
         $em->flush();
 
-        return $this->redirectToRoute('tax history');
+        return $this->redirectToRoute('tax_history');
     }
 
     /**
      * @Route(
      *     "/tax/history",
-     *     name="tax history"
+     *     name="tax_history"
      * )
      *
      */
@@ -230,10 +230,17 @@ class CurrencyController extends Controller
             ]
         );
 
-        return $this->render('currency/taxHistory.html.twig', array(
+            if ($form->isSubmitted() && $form->isValid()) {
+                // perform some action...
+
+                return $this->redirectToRoute('payment_report');
+            }
+
+
+        return $this->render('currency/taxHistory.html.twig', [
             'taxes' => $taxes,
             'form' => $form->createView()
-        ));
+        ]);
     }
 
     /**
@@ -243,9 +250,27 @@ class CurrencyController extends Controller
      * )
      *
      */
-    public function PaymentReportAction()
+    public function PaymentReportAction(Request $request)
     {
-        return new Response('CurrencyController::ReportAction()');
+        $date = $request->get('quarter_report')['quarters'];
+
+        list($year, $quarter) = explode('-', $date);
+
+        $paymentRepository = $this->getDoctrine()->getRepository(Tax::class);
+
+        $payments = $paymentRepository ->getPaymentsByQuarter($quarter, $year, $this->getUser()->getId());
+
+
+
+
+
+
+        return $this->render('currency/paymentReport.html.twig', [
+            'payments' => $payments,
+            'year' => $year,
+            'quarter' => $quarter,
+        ]);
+
     }
 
     /**

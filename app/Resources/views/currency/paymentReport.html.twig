@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'currency/userBlock.html.twig' %}
+    {% include 'currency/menu.html.twig' %}
+    {#{{ dump() }}#}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>Отчет за {{ quarter }} квартал {{ year }} года</h2>
+                {% set total = 0 %}
+                {% set tax = 0 %}
+                {% for payment in payments %}
+                    {% set tax = tax + payment.taxSum %}
+                    {% set total = total + payment.totalSumHrn %}
+                {% endfor %}
+                <p>
+                    Сума дохода в гривнах за квартал - <b>{{ total|round(2, 'ceil') }}</b> грн.
+                </p>
+                <p>
+                    Сумма единого налога к оплате - <b>{{ tax|round(2, 'ceil') }}</b> грн.
+                </p>
+                <p>
+                    Сумма ЕСВ к оплате - (in developing)
+                </p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -21,6 +21,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Tax
 {
+    const QUARTER_1 = [
+    ];
+    const QUARTER_2 = 0;
+    const QUARTER_3 = 0;
+    const QUARTER_4 = 0;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
