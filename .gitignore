@@ -34,7 +34,7 @@
 */Entity/*~
 
 /bower_components
-/mysql
+/docker/mysql
 /currency
 /performance_schema
 ibdata1
