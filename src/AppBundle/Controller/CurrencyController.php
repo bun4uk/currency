@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\AppBundle;
+use AppBundle\Service\TaxService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -248,8 +249,8 @@ class CurrencyController extends Controller
             'payments' => $payments,
             'year' => $year,
             'quarter' => $quarter,
+            'ssc_tax' => TaxService::MIN_SALARY * TaxService::SSC_TAX_RATE * 3
         ]);
-
     }
 
     /**
