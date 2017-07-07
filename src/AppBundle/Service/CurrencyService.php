@@ -98,6 +98,8 @@ class CurrencyService
         return $currencies;
     }
 
+
+
     /**
      * @param User $user
      * @return array

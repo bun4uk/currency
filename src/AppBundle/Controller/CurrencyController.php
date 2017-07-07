@@ -48,18 +48,11 @@ class CurrencyController extends Controller
             "sale" => $btcPrice['USD']['sell'],
         ];
 
-//        dump($currencyList);
-//        dump($btcPrice);
-//        die;
-
         $updateTime = $this->get('app.currency_service')->getRateUpdateDate();
         $timeDiff = time() - strtotime($updateTime);
 
-//        dump($timeDiff);
-
         if ($timeDiff > (60 * 60)) {
             $currencyService->saveRate($currencyList);
-//            dump('currency was updated');
         }
 
 
@@ -108,8 +101,6 @@ class CurrencyController extends Controller
             ];
         }
 
-//        dump($buyRateData); die;
-
         $buyTimeline = new TimeLine("#buyTimeline", $buyRateData);
         $saleTimeline = new TimeLine("#saleTimeline", $saleRateData);
 
@@ -121,6 +112,8 @@ class CurrencyController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return Response
      * @Route(
      *     "/tax",
      *     name="tax_calculator"
@@ -130,7 +123,7 @@ class CurrencyController extends Controller
     public function taxAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $bankApiService = $this->get('app.bank_api');
+        $taxService = $this->get('app.tax_service');
         $currencyRepository = $this->getDoctrine()->getRepository(Currency::class);
         $form = $this->createForm(
             TaxType::class,
@@ -147,41 +140,30 @@ class CurrencyController extends Controller
             /**
              * @var Tax
              */
-            $formData = $form->getData(); //data from form
+            $formData = $form->getData(); //data from the form
 
-//            try {
-                $hryvnaRate = $bankApiService->getCurrencyRateToHryvna(
-                    $currencyRepository->findOneBy(['id' => $formData->getCurrency()])->getName(),
-                    $formData->getDate()->format('Ymd')
-                );
-//            } catch (\Exception $e) {
-//                return new Response('Данные нацбанка о курсе валют недоступны. Приносим свои извинения.');
-//            }
-
-
-            $sumHryvna = $formData->getSumHrn();
-            $sumCurrency = $formData->getSumForeignCurrency() * $hryvnaRate[0]['rate'];
-            $hryvnaTax = $sumHryvna * 0.05;
-            $currencyTax = $sumCurrency * 0.05;
-            $totalSumHrn = $sumHryvna + $sumCurrency;
+            try {
+                $paymentRates = $taxService->getPaymentRates($formData);
+            } catch (\Exception $e) {
+                return new Response($e->getMessage());
+            }
 
             $formData->setUser($this->getUser());
-            $formData->setTaxSum($hryvnaTax + $currencyTax);
-            $formData->setTotalSumHrn($totalSumHrn);
+            $formData->setTaxSum($paymentRates['hryvnaTax'] + $paymentRates['currencyTax']);
+            $formData->setTotalSumHrn($paymentRates['totalSumHrn']);
             $em->persist($formData);
             $em->flush();
 
             return $this->render(
                 'currency/tax_result.html.twig',
                 [
-                    'hrnRate' => $hryvnaRate[0],
-                    'total' => $sumHryvna + $sumCurrency,
-                    'tax' => $hryvnaTax + $currencyTax,
+                    'hrnRate' => $paymentRates['hryvnaRate'][0],
+                    'total' => $paymentRates['sumHryvna'] + $paymentRates['sumCurrency'],
+                    'tax' => $paymentRates['hryvnaTax'] + $paymentRates['currencyTax'],
                     'formData' => $formData
                 ]
             );
         }
-
 
         return $this->render('currency/tax.html.twig', array(
             'form' => $form->createView(),
@@ -189,11 +171,12 @@ class CurrencyController extends Controller
     }
 
     /**
+     * @param $paymentId
+     * @return RedirectResponse
      * @Route(
      *     "/tax/remove/{paymentId}",
      *     name="remove payment"
      * )
-     *
      */
     public function removePaymentAction($paymentId)
     {
@@ -207,11 +190,12 @@ class CurrencyController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return RedirectResponse|Response
      * @Route(
      *     "/tax/history",
      *     name="tax_history"
      * )
-     *
      */
     public function taxHistoryAction(Request $request)
     {
@@ -220,21 +204,21 @@ class CurrencyController extends Controller
         $currencyService = $this->get('app.currency_service');
         $availableQuarters = $currencyService->getAvailableQuarters($this->getUser());
 
-        $taxes = $taxRepository->findBy(['user' => $this->getUser()->getId()], ['date'=>'desc']);
+        $taxes = $taxRepository->findBy(['user' => $this->getUser()->getId()], ['date' => 'desc']);
         $form = $this->createForm(
             QuarterReportType::class,
             null,
             [
                 'available_quarters' => $availableQuarters,
-                'action'=>$this->generateUrl('payment_report')
+                'action' => $this->generateUrl('payment_report')
             ]
         );
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                // perform some action...
+        if ($form->isSubmitted() && $form->isValid()) {
+            // perform some action...
 
-                return $this->redirectToRoute('payment_report');
-            }
+            return $this->redirectToRoute('payment_report');
+        }
 
 
         return $this->render('currency/taxHistory.html.twig', [
@@ -244,11 +228,12 @@ class CurrencyController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return Response
      * @Route(
      *     "/tax/report",
      *     name="payment_report"
      * )
-     *
      */
     public function PaymentReportAction(Request $request)
     {
@@ -257,13 +242,7 @@ class CurrencyController extends Controller
         list($year, $quarter) = explode('-', $date);
 
         $paymentRepository = $this->getDoctrine()->getRepository(Tax::class);
-
-        $payments = $paymentRepository ->getPaymentsByQuarter($quarter, $year, $this->getUser()->getId());
-
-
-
-
-
+        $payments = $paymentRepository->getPaymentsByQuarter($quarter, $year, $this->getUser()->getId());
 
         return $this->render('currency/paymentReport.html.twig', [
             'payments' => $payments,
@@ -278,7 +257,6 @@ class CurrencyController extends Controller
      *     "/btchistory",
      *     name="btc history"
      * )
-     *
      */
     public function btcHistoryAction()
     {
@@ -289,7 +267,7 @@ class CurrencyController extends Controller
         foreach ($btcChart as $price) {
             $rate = new Rate();
             $rate->setCurrencyId(4);
-            $rate->setCreationDate(\DateTime::createFromFormat( 'U', $price['x'] ));
+            $rate->setCreationDate(\DateTime::createFromFormat('U', $price['x']));
             $rate->setBuyRate($price['y']);
             $rate->setSaleRate($price['y']);
 //            $em->persist($rate);

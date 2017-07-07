@@ -14,6 +14,12 @@ services:
         class:  AppBundle\Service\CurrencyService
         arguments: ["@doctrine.orm.entity_manager"]
 
+    app.tax_service:
+        class:  AppBundle\Service\TaxService
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@app.bank_api"
+
     app.form.tax:
         class:  AppBundle\Form\TaxType
         arguments: ["@app.currency_service"]
