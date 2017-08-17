@@ -158,7 +158,7 @@ class CurrencyController extends Controller
             return $this->render(
                 'currency/tax_result.html.twig',
                 [
-                    'hrnRate' => $paymentRates['hryvnaRate'][0],
+                    'hrnRate' => $paymentRates['hryvnaRate'],
                     'total' => $paymentRates['sumHryvna'] + $paymentRates['sumCurrency'],
                     'tax' => $paymentRates['hryvnaTax'] + $paymentRates['currencyTax'],
                     'formData' => $formData

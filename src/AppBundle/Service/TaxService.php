@@ -54,17 +54,22 @@ class TaxService
      */
     public function getPaymentRates($formData)
     {
-        try {
-            $hryvnaRate = $this->bankApiService->getCurrencyRateToHryvna(
-                $this->currencyRepository->findOneBy(['id' => $formData->getCurrency()])->getName(),
-                $formData->getDate()->format('Ymd')
-            );
-        } catch (\Exception $e) {
-            throw new \Exception('Данные нацбанка о курсе валют недоступны. Приносим свои извинения.');
+        $sumCurrency = 0;
+        $hryvnaRate = null;
+        if ($formData->getSumForeignCurrency()) {
+            try {
+                $hryvnaRateResponse = $this->bankApiService->getCurrencyRateToHryvna(
+                    $this->currencyRepository->findOneBy(['id' => $formData->getCurrency()])->getName(),
+                    $formData->getDate()->format('Ymd')
+                );
+            } catch (\Exception $e) {
+                throw new \Exception('Данные нацбанка о курсе валют недоступны. Приносим свои извинения.');
+            }
+            $sumCurrency = $formData->getSumForeignCurrency() * $hryvnaRateResponse[0]['rate'];
+            $hryvnaRate = $hryvnaRateResponse[0];
         }
 
         $sumHryvna = $formData->getSumHrn();
-        $sumCurrency = $formData->getSumForeignCurrency() * $hryvnaRate[0]['rate'];
         $hryvnaTax = $sumHryvna * self::TAX_RATE;
         $currencyTax = $sumCurrency * self::TAX_RATE;
         $totalSumHrn = $sumHryvna + $sumCurrency;
