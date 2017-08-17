@@ -17,12 +17,20 @@
                 </div>
 
                 <div class="form-group">
+                    {#{{ form_widget(form.paymentInForeignCurrency) }}#}
+                    {#{{ form_label(form.paymentInForeignCurrency) }}#}
+                    {#{{ form_errors(form.paymentInForeignCurrency) }}#}
+                    <input type="checkbox" name="" id="paymentInForeignCurrency">
+                    <label for="paymentInForeignCurrency">Payment in foreign currency</label>
+                </div>
+
+                <div class="form-group sumForeignCurrency hidden">
                     {{ form_label(form.sumForeignCurrency) }}
                     {{ form_widget(form.sumForeignCurrency, {'attr': {'class': 'form-control'}}) }}
                     {{ form_errors(form.sumForeignCurrency) }}
                 </div>
 
-                <div class="form-group">
+                <div class="form-group currency hidden">
                     {{ form_label(form.currency) }}
                     {{ form_widget(form.currency, {'attr': {'class': 'form-control'}}) }}
                     {{ form_errors(form.currency) }}
@@ -42,4 +50,22 @@
         </div>
 
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        var checkbox = document.getElementById("tax_date");
+        checkbox.valueAsDate = new Date();
+        $('#paymentInForeignCurrency').bind('change', function () {
+            if (this.checked) {
+                $('.sumForeignCurrency, .currency').removeClass('hidden');
+                document.getElementById("tax_sumForeignCurrency").setAttribute("required", "required");
+            } else {
+                $('.sumForeignCurrency, .currency').addClass('hidden');
+                document.getElementById("tax_sumForeignCurrency").removeAttribute("required");
+            }
+        });
+    </script>
 {% endblock %}

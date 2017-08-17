@@ -4,8 +4,12 @@
     {% include 'currency/userBlock.html.twig' %}
     {% include 'currency/menu.html.twig' %}
     {#{{ dump() }}#}
-    <h2>Курс {{ formData.currency.name }} на {{ hrnRate.exchangedate }} - {{ hrnRate.rate }} грн</h2>
-    <p>Получено в {{ formData.currency.name }} - {{ formData.sumForeignCurrency }} {{ formData.currency.name }}</p>
+    {% if hrnRate is not null %}
+        <h2>Курс {{ formData.currency.name }} на {{ hrnRate.exchangedate }} - {{ hrnRate.rate }} грн</h2>
+        <p>Получено в {{ formData.currency.name }} - {{ formData.sumForeignCurrency }} {{ formData.currency.name }}</p>
+    {% else %}
+        <h2>Доход за {{ formData.date|date("d.m.Y") }}</h2>
+    {% endif %}
     <p>Получено в грн - {{ total }} грн</p>
     <p>Сумма единого налога - {{ tax }}грн</p>
 {% endblock %}
