@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+
+{% block body %}
+    {% include 'currency/userBlock.html.twig' %}
+    {% include 'currency/menu.html.twig' %}
+    <!-- remember to give width and height to your graph containers -->
+    <h2>Payments chart</h2>
+    <div id="paymentsChart" style="width:80%;height:350px;"></div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function () {
+            {{ flot_graph(paymentsChart) }}
+        });
+    </script>
+{% endblock %}

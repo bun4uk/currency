@@ -187,25 +187,25 @@ class CurrencyController extends Controller
         $em->remove($payment);
         $em->flush();
 
-        return $this->redirectToRoute('tax_history');
+        return $this->redirectToRoute('payments_history');
     }
 
     /**
      * @param Request $request
      * @return RedirectResponse|Response
      * @Route(
-     *     "/tax/history",
-     *     name="tax_history"
+     *     "/payments/history",
+     *     name="payments_history"
      * )
      */
-    public function taxHistoryAction(Request $request)
+    public function paymentsHistoryAction(Request $request)
     {
-        $taxRepository = $this->getDoctrine()->getRepository(Tax::class);
+        $paymentsRepository = $this->getDoctrine()->getRepository(Tax::class);
 
         $currencyService = $this->get('app.currency_service');
         $availableQuarters = $currencyService->getAvailableQuarters($this->getUser());
 
-        $taxes = $taxRepository->findBy(['user' => $this->getUser()->getId()], ['date' => 'desc']);
+        $payments = $paymentsRepository->findBy(['user' => $this->getUser()->getId()], ['date' => 'desc']);
         $form = $this->createForm(
             QuarterReportType::class,
             null,
@@ -223,9 +223,36 @@ class CurrencyController extends Controller
 
 
         return $this->render('currency/taxHistory.html.twig', [
-            'taxes' => $taxes,
+            'taxes' => $payments,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route(
+     *     "/payments/chart",
+     *     name="payments_chart"
+     * )
+     */
+    public function paymentChartAction()
+    {
+        $paymentsRepository = $this->getDoctrine()->getRepository(Tax::class);
+        $payments = $paymentsRepository->findBy(['user' => $this->getUser()->getId()], ['date' => 'desc']);
+        $paymentsChartData = [];
+        foreach ($payments as $payment) {
+
+            $paymentsChartData[] = [
+                $payment->getDate()->getTimestamp()*1000,
+                $payment->getTotalSumHrn()
+
+            ];
+        }
+        $paymentsChart = new TimeLine("#paymentsChart", $paymentsChartData);
+
+        return $this->render('currency/paymentsChart.html.twig', array(
+            'paymentsChart' => $paymentsChart,
+        ));
+
     }
 
     /**
