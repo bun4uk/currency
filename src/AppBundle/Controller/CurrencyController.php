@@ -116,7 +116,7 @@ class CurrencyController extends Controller
      * @param Request $request
      * @return Response
      * @Route(
-     *     "/tax",
+     *     "/payments/new",
      *     name="tax_calculator"
      * )
      *
@@ -175,7 +175,7 @@ class CurrencyController extends Controller
      * @param $paymentId
      * @return RedirectResponse
      * @Route(
-     *     "/tax/remove/{paymentId}",
+     *     "/payment/remove/{paymentId}",
      *     name="remove payment"
      * )
      */
@@ -259,7 +259,7 @@ class CurrencyController extends Controller
      * @param Request $request
      * @return Response
      * @Route(
-     *     "/tax/report",
+     *     "/payments/report",
      *     name="payment_report"
      * )
      */
