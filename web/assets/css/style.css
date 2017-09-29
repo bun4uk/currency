@@ -5,3 +5,7 @@
 .colored_table tr:nth-child(odd) {
     background: #bcdfe2
 }
+
+#paymentReportBtn {
+    float: right;
+}

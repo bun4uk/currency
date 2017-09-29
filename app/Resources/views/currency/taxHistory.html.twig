@@ -6,23 +6,21 @@
     {% include 'currency/menu.html.twig' %}
     <div class="container">
         <p>
-            <button
-                    type="button"
-                    class="btn btn-success"
-                    data-toggle="modal"
-                    data-target="#modalPaymentReport"
-            >
-                Сформировать отчет
-            </button>
-            (in developing)
-        </p>
-        <p>
             <a
                     href="{{ path('tax_calculator') }}"
                     class="btn btn-primary"
             >
                 Новый платёж
             </a>
+            <button
+                    type="button"
+                    id="paymentReportBtn"
+                    class="btn btn-success"
+                    data-toggle="modal"
+                    data-target="#modalPaymentReport"
+            >
+                Сформировать отчет
+            </button>
         </p>
         <table class="table colored_table">
             <tr>
