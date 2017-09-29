@@ -1,7 +1,7 @@
-#payment_history tr:nth-child(even) {
+.colored_table tr:nth-child(even) {
     background: #9ec8cb
 }
 
-#payment_history tr:nth-child(odd) {
+.colored_table tr:nth-child(odd) {
     background: #bcdfe2
 }
