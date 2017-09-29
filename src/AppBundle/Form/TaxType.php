@@ -14,6 +14,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -51,16 +52,17 @@ class TaxType extends AbstractType
                 'choice_label' => 'name',
             ])
             ->add(
+                // I hope it will be refactored whe all browsers will support DateType inputs
                 'date',
-                DateType::class,
+                TextType::class,
                 [
-                    'widget' => 'single_text',
-                    'format' => 'yyyy-MM-dd',
+//                    'widget' => 'single_text',
+//                    'format' => 'yyyy-MM-dd',
                 ]
             )
             ->add('save', SubmitType::class, array('label' => 'Submit'))
-            ->addEventListener(
-                FormEvents::PRE_SUBMIT, [$this, 'sumForeignCurrencyEventListener']);
+            ->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'sumForeignCurrencyEventListener'])
+            ->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'setDateObject']);
     }
 
     /**
@@ -77,6 +79,22 @@ class TaxType extends AbstractType
         $event->setData(array_replace(
                 $data,
                 ['sumForeignCurrency' => 0]
+            )
+        );
+
+        return true;
+    }
+
+    /**
+     * @param FormEvent $event
+     * @return bool
+     */
+    public function setDateObject(FormEvent $event): bool
+    {
+        $data = $event->getData();
+        $event->setData(array_replace(
+                $data,
+                ['date' => \DateTime::createFromFormat('Y-m-d', $data['date'])]
             )
         );
 
