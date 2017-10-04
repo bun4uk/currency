@@ -225,11 +225,11 @@ class Tax
     }
 
     /**
-     * Get date
+     * Get Total Sum Hrn
      *
-     * @return \DateTime
+     * @return float
      */
-    public function getTotalSumHrn()
+    public function getTotalSumHrn(): float
     {
         return $this->totalSumHrn;
     }

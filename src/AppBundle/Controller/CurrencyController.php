@@ -247,10 +247,9 @@ class CurrencyController extends Controller
 
             ];
         }
-        $paymentsChart = new TimeLine("#paymentsChart", $paymentsChartData);
 
         return $this->render('currency/paymentsChart.html.twig', array(
-            'paymentsChart' => $paymentsChart,
+            'jsonPaymentsChart' => json_encode($paymentsChartData)
         ));
 
     }
