@@ -81,10 +81,3 @@ fos_user:
     from_email:
         address: "fake@fake.com"
         sender_name: "fake"
-
-sonata_block:
-    default_contexts: [cms]
-    blocks:
-        # enable the SonataAdminBundle block
-        sonata.admin.block.admin_list:
-            contexts: [admin]

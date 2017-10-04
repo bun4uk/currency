@@ -19,6 +19,7 @@
 # Assets and user uploads
 /web/bundles/
 /web/assets/vendor
+/web/config.php
 
 # PHPUnit
 /app/phpunit.xml
