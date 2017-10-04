@@ -1,6 +1,6 @@
 var chartData = [];
 
-paymentsChart.forEach(function (currentValue, index) {
+chart.forEach(function (currentValue, index) {
     chartData[index] = [
         new Date(currentValue[0]),
         currentValue[1]
@@ -29,7 +29,7 @@ function drawChart() {
         }
     };
 
-    var chart = new google.visualization.LineChart(document.getElementById('paymentsChart'));
+    var chart = new google.visualization.LineChart(document.getElementById('chart'));
 
     chart.draw(data, options);
 }

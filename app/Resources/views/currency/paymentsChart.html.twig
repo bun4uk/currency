@@ -5,14 +5,14 @@
     {% include 'currency/menu.html.twig' %}
     <!-- remember to give width and height to your graph containers -->
     <h2>Payments chart</h2>
-    <div id="paymentsChart"></div>
+    <div id="chart"></div>
 
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
-        var paymentsChart = JSON.parse('{{ jsonPaymentsChart }}');
+        var chart = JSON.parse('{{ jsonPaymentsChart }}');
     </script>
-    <script type="text/javascript" src="{{ asset('assets/js/chart.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/paymentChart.js') }}"></script>
 {% endblock %}
