@@ -93,21 +93,18 @@ class CurrencyController extends Controller
 
         foreach ($rates as $rate) {
             $buyRateData[] = [
-                $rate->getCreationDate()->getTimestamp(),
+                $rate->getCreationDate()->getTimestamp()*1000,
                 $rate->getBuyRate()
             ];
             $saleRateData[] = [
-                $rate->getCreationDate()->getTimestamp(),
+                $rate->getCreationDate()->getTimestamp()*1000,
                 $rate->getSaleRate()
             ];
         }
 
-//        $buyTimeline = new TimeLine("#buyTimeline", $buyRateData);
-//        $saleTimeline = new TimeLine("#saleTimeline", $saleRateData);
-
         return $this->render('currency/chart.html.twig', array(
             'buyTimeline' => json_encode($buyRateData),
-            'saleTimeline' => $saleRateData,
+            'saleTimeline' => json_encode($saleRateData),
             'currency' => $currency
         ));
     }
