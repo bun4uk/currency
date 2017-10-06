@@ -19,14 +19,8 @@ function drawChart() {
     var options = {
         width: '80%',
         height: 500,
-        hAxis: {
-            format: 'MMM dd, yyyy',
-            gridlines: {count: 15}
-        },
-        vAxis: {
-            gridlines: {color: 'none'},
-            minValue: 0
-        }
+        curveType: 'function',
+        legend: { position: 'bottom' }
     };
 
     var chart = new google.visualization.LineChart(document.getElementById('chart'));
