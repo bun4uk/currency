@@ -3,11 +3,11 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - 7777:80
+      - 7779:80
     links:
       - php
     volumes:
-      - ../:/var/www/html
+      - ../:/var/www/html/
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     container_name: currency_nginx
   php:
@@ -17,8 +17,10 @@ services:
     links:
       - mysql
     volumes:
-      - ../:/var/www/html
+      - ../:/var/www/html:cached
+      - ./php/php.ini:/usr/local/etc/php/php.ini:ro
     container_name: currency_php
+
   mysql:
     image: mysql:5.6
     volumes:
@@ -28,14 +30,6 @@ services:
       MYSQL_DATABASE: currency
       MYSQL_USER: currency
       MYSQL_PASSWORD: currency
-    container_name: currency_db
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    environment:
-     - PMA_ARBITRARY=1
-    restart: always
     ports:
-     - 7778:80
-    volumes:
-     - /sessions
+     - 7777:3306
+    container_name: currency_db
