@@ -1,5 +1,5 @@
 <?php
-
+header("X-XSS-Protection: 1; mode=block");
 use Symfony\Component\HttpFoundation\Request;
 
 /**
