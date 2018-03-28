@@ -1,6 +1,8 @@
 <?php
 header("X-XSS-Protection: 1; mode=block");
 header("x-frame-options: SAMEORIGIN");
+header("X-Content-Type-Options: nosniff");
+header("Referrer-Policy: no-referrer");
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;

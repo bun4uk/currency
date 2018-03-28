@@ -3,7 +3,6 @@
 {% block body %}
     {% include 'currency/userBlock.html.twig' %}
     {% include 'currency/menu.html.twig' %}
-    {#{{ dump() }}#}
 
     <div class="container">
         <div class="row">
@@ -11,9 +10,16 @@
                 <h2>Отчет за {{ quarter }} квартал {{ year }} года</h2>
                 {% set total = 0 %}
                 {% set tax = 0 %}
+                {% set exchangeRate = 1 %}
                 {% for payment in payments %}
+                    {% if payment.exchangeRate is null %}
+                        {% set exchangeRate = 1 %}
+                    {% else %}
+                        {% set exchangeRate = payment.exchangeRate %}
+                    {% endif %}
+
                     {% set tax = tax + payment.taxSum %}
-                    {% set total = total + payment.totalSumHrn %}
+                    {% set total = total + (payment.paymentSum * exchangeRate) %}
                 {% endfor %}
                 <p>
                     Сума дохода в гривнах за квартал - <b>{{ total|round(2, 'ceil') }}</b> грн.

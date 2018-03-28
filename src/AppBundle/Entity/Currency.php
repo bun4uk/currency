@@ -22,14 +22,14 @@ class Currency
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=5)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=10)
      */
-    private $rate;
+    private $symbol;
 
     /**
      * Get id
@@ -68,13 +68,13 @@ class Currency
     /**
      * Set rate
      *
-     * @param string $rate
+     * @param string $symbol
      *
      * @return Currency
      */
-    public function setRate($rate)
+    public function setSymbol($symbol)
     {
-        $this->rate = $rate;
+        $this->symbol = $symbol;
 
         return $this;
     }
@@ -84,32 +84,8 @@ class Currency
      *
      * @return string
      */
-    public function getRate()
+    public function getSymbol()
     {
-        return $this->rate;
-    }
-
-    /**
-     * Set rateId
-     *
-     * @param integer $rateId
-     *
-     * @return Currency
-     */
-    public function setRateId($rateId)
-    {
-        $this->rateId = $rateId;
-
-        return $this;
-    }
-
-    /**
-     * Get rateId
-     *
-     * @return integer
-     */
-    public function getRateId()
-    {
-        return $this->rate;
+        return $this->symbol;
     }
 }

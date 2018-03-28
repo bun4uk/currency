@@ -11,6 +11,7 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Currency;
 use AppBundle\Entity\Repository\PaymentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use AppBundle\Entity\Tax;
 
 class TaxService
 {
@@ -48,39 +49,38 @@ class TaxService
     }
 
     /**
-     * @param $formData
+     * @param Tax $payment
      * @return array
      * @throws \Exception
      */
-    public function getPaymentRates($formData)
+    public function getPaymentRates(Tax $payment): array
     {
-        $sumCurrency = 0;
-        $hryvnaRate = null;
-        if ($formData->getSumForeignCurrency()) {
+        if ('HRN' != $payment->getCurrency()->getName()) {
             try {
-                $hryvnaRateResponse = $this->bankApiService->getCurrencyRateToHryvna(
-                    $this->currencyRepository->findOneBy(['id' => $formData->getCurrency()])->getName(),
-                    $formData->getDate()->format('Ymd')
+                $hrnRateResponse = $this->bankApiService->getCurrencyRateToHryvna(
+                    $this->currencyRepository->findOneBy(['id' => $payment->getCurrency()])->getName(),
+                    $payment->getDate()->format('Ymd')
                 );
             } catch (\Exception $e) {
                 throw new \Exception('Данные нацбанка о курсе валют недоступны. Приносим свои извинения.');
             }
-            $sumCurrency = $formData->getSumForeignCurrency() * $hryvnaRateResponse[0]['rate'];
-            $hryvnaRate = $hryvnaRateResponse[0];
+            $paymentSum = $payment->getPaymentSum();
+            $sumHrn = $payment->getPaymentSum() * $hrnRateResponse[0]['rate'];
+            $hrnRate = $hrnRateResponse[0];
+        } else {
+            $paymentSum = $payment->getPaymentSum();
+            return [
+                'paymentSum' => $paymentSum,
+                'paymentSumHrn' => $paymentSum,
+                'tax' => $payment->getPaymentSum() * self::TAX_RATE,
+                'hrnRate' => null
+            ];
         }
-
-        $sumHryvna = $formData->getSumHrn();
-        $hryvnaTax = $sumHryvna * self::TAX_RATE;
-        $currencyTax = $sumCurrency * self::TAX_RATE;
-        $totalSumHrn = $sumHryvna + $sumCurrency;
-
         return [
-            'sumHryvna' => $sumHryvna,
-            'hryvnaTax' => $hryvnaTax,
-            'sumCurrency' => $sumCurrency,
-            'currencyTax' => $currencyTax,
-            'hryvnaRate' => $hryvnaRate,
-            'totalSumHrn' => $totalSumHrn
+            'paymentSum' => $paymentSum,
+            'paymentSumHrn' => $sumHrn,
+            'tax' => $paymentSum * $hrnRate['rate'] * self::TAX_RATE,
+            'hrnRate' => $hrnRate,
         ];
 
     }

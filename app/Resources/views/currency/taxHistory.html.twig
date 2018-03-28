@@ -6,10 +6,7 @@
     {% include 'currency/menu.html.twig' %}
     <div class="container">
         <p>
-            <a
-                    href="{{ path('tax_calculator') }}"
-                    class="btn btn-primary"
-            >
+            <a href="{{ path('tax_calculator') }}" class="btn btn-primary">
                 Новый платёж
             </a>
             <button
@@ -25,10 +22,7 @@
         <table class="table colored_table">
             <tr>
                 <th>Id</th>
-                <th>Сумма в UAH</th>
-                <th>Сумма в Валюте</th>
-                <th>Общая сумма в UAH</th>
-                <th>Валюта</th>
+                <th>Сумма</th>
                 <th>Дата</th>
                 <th>Сумма ЕН</th>
                 <th>Квартал</th>
@@ -40,22 +34,21 @@
                         {{ tax.id }}
                     </td>
                     <td>
-                        {{ tax.sumHrn }}
-                    </td>
-                    <td>
-                        {{ tax.sumForeignCurrency }}
-                    </td>
-                    <td>
-                        {{ tax.totalSumHrn }}
-                    </td>
-                    <td>
-                        {{ tax.currency.name }}
+                        {{ tax.paymentSum }}&#x{{ tax.currency.symbol }}
+                        {% if  tax.exchangeRate is not null %}
+                            <br>
+                            <span class="tax-history-hrn-rate">
+                                {{ (tax.paymentSum * tax.exchangeRate)|round(2, 'ceil') }}
+                                &#x20B4
+                            </span>
+                        {% endif %}
                     </td>
                     <td>
                         {{ tax.date|date("m/d/Y") }}
                     </td>
                     <td>
                         {{ tax.taxSum|round(2, 'ceil') }}
+                        &#x20B4
                     </td>
                     <td>
                         {{ tax.date|quarter() }}

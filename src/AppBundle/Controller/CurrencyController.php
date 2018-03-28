@@ -93,14 +93,16 @@ class CurrencyController extends Controller
 
         foreach ($rates as $rate) {
             $buyRateData[] = [
-                $rate->getCreationDate()->getTimestamp()*1000,
+                $rate->getCreationDate()->getTimestamp() * 1000,
                 $rate->getBuyRate()
             ];
             $saleRateData[] = [
-                $rate->getCreationDate()->getTimestamp()*1000,
+                $rate->getCreationDate()->getTimestamp() * 1000,
                 $rate->getSaleRate()
             ];
         }
+
+        dump($buyRateData); die;
 
         return $this->render('currency/chart.html.twig', array(
             'buyTimeline' => json_encode($buyRateData),
@@ -147,17 +149,16 @@ class CurrencyController extends Controller
             }
 
             $formData->setUser($this->getUser());
-            $formData->setTaxSum($paymentRates['hryvnaTax'] + $paymentRates['currencyTax']);
-            $formData->setTotalSumHrn($paymentRates['totalSumHrn']);
+            $formData->setTaxSum($paymentRates['tax']);
+            $formData->setPaymentSum($paymentRates['paymentSum']);
+            $formData->setExchangeRate($paymentRates['hrnRate']['rate']);
             $em->persist($formData);
             $em->flush();
 
             return $this->render(
                 'currency/tax_result.html.twig',
                 [
-                    'hrnRate' => $paymentRates['hryvnaRate'],
-                    'total' => $paymentRates['sumHryvna'] + $paymentRates['sumCurrency'],
-                    'tax' => $paymentRates['hryvnaTax'] + $paymentRates['currencyTax'],
+                    'totalHrn' => $paymentRates['paymentSumHrn'],
                     'formData' => $formData
                 ]
             );
@@ -213,8 +214,6 @@ class CurrencyController extends Controller
         );
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // perform some action...
-
             return $this->redirectToRoute('payment_report');
         }
 
@@ -240,7 +239,7 @@ class CurrencyController extends Controller
 
             $paymentsChartData[] = [
                 $payment->getDate()->getTimestamp()*1000,
-                $payment->getTotalSumHrn()
+                (float)$payment->getPaymentSum()
 
             ];
         }
@@ -250,6 +249,45 @@ class CurrencyController extends Controller
         ));
 
     }
+
+//    public function paymentChartAction()
+//    {
+//        $paymentsChartData = [];
+//
+//        $paymentRepository = $this->getDoctrine()->getRepository(Tax::class);
+//
+//        $years = [2015, 2016, 2017, 2018];
+//        $quarters = [1, 2, 3, 4];
+//
+//        foreach ($years as $year) {
+//            foreach ($quarters as $quarter) {
+//                $quarterPayment = 0;
+//                $payments = $paymentRepository->getPaymentsByQuarter($quarter, $year, $this->getUser()->getId());
+//                foreach ($payments as $payment) {
+//                    $quarterPayment += $payment->getPaymentSum() * ($payment->getExchangeRate() ?? 1);
+//                }
+//                $paymentsChartData[] = [(int)($year . $quarter), $quarterPayment];
+//
+//            }
+//        }
+////die;
+////        dump($paymentsChartData);
+////        die;
+////
+////        foreach ($payments as $payment) {
+////
+////
+////            $paymentsChartData[] = [
+////                $payment->getDate()->getTimestamp() * 1000,
+////                $payment->getPaymentSum()
+////            ];
+////        }
+//
+//        return $this->render('currency/paymentsChart.html.twig', array(
+//            'jsonPaymentsChart' => json_encode($paymentsChartData)
+//        ));
+//
+//    }
 
     /**
      * @param Request $request

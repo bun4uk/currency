@@ -2,6 +2,8 @@ version: "3.1"
 services:
   nginx:
     image: nginx:latest
+    environment:
+      - VIRTUAL_HOST=currency.local
     ports:
       - 7779:80
     links:
@@ -15,21 +17,22 @@ services:
     expose:
       - 9000
     links:
-      - mysql
+      - db
     volumes:
       - ../:/var/www/html:cached
       - ./php/php.ini:/usr/local/etc/php/php.ini:ro
     container_name: currency_php
 
-  mysql:
-    image: mysql:5.6
-    volumes:
-      - ./mysql:/var/lib/mysql
+  db:
+    image: mysql
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: currency
-      MYSQL_USER: currency
-      MYSQL_PASSWORD: currency
+      MYSQL_ROOT_PASSWORD: example
     ports:
      - 7777:3306
-    container_name: currency_db
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

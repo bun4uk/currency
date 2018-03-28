@@ -12,6 +12,7 @@ class Version20170306144345 extends AbstractMigration
 {
     /**
      * @param Schema $schema
+     * @throws \Doctrine\DBAL\Migrations\AbortMigrationException
      */
     public function up(Schema $schema)
     {
@@ -20,17 +21,21 @@ class Version20170306144345 extends AbstractMigration
             'Migration can only be executed safely on \'mysql\'.'
         );
 
+
         $this->addSql(
-                "INSERT INTO `currency` (`id`, `name`, `rate_id`) VALUES ('1', 'USD', '1');"
+            "INSERT INTO `currency` (`id`, `name`, `symbol`) VALUES ('1', 'HRN', '20B4');"
         );
         $this->addSql(
-                "INSERT INTO `currency` (`id`, `name`, `rate_id`) VALUES ('2', 'EUR', '2');"
+            "INSERT INTO `currency` (`id`, `name`, `symbol`) VALUES ('2', 'USD', '24');"
         );
         $this->addSql(
-                "INSERT INTO `currency` (`id`, `name`, `rate_id`) VALUES ('3', 'RUR', '3');"
+            "INSERT INTO `currency` (`id`, `name`, `symbol`) VALUES ('3', 'EUR', '20AC');"
         );
         $this->addSql(
-                "INSERT INTO `currency` (`id`, `name`, `rate_id`) VALUES ('4', 'BTC', '4');"
+            "INSERT INTO `currency` (`id`, `name`, `symbol`) VALUES ('4', 'RUR', '20BD');"
+        );
+        $this->addSql(
+            "INSERT INTO `currency` (`id`, `name`, `symbol`) VALUES ('5', 'BTC', '20BF');"
         );
     }
 
@@ -39,7 +44,8 @@ class Version20170306144345 extends AbstractMigration
      */
     public function down(Schema $schema)
     {
-        // this down() migration is auto-generated, please modify it to your needs
-
+        $this->addSql(
+            "DELETE FROM `currency`;"
+        );
     }
 }

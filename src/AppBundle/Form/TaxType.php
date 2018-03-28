@@ -39,20 +39,13 @@ class TaxType extends AbstractType
          * @var CurrencyService
          */
         $builder
-            ->add('sumHrn', NumberType::class)
-            ->add(
-                'sumForeignCurrency',
-                NumberType::class,
-                [
-                    'required' => false
-                ]
-            )
+            ->add('paymentSum', NumberType::class)
             ->add('currency', EntityType::class, [
                 'class' => 'AppBundle:Currency',
                 'choice_label' => 'name',
             ])
             ->add(
-                // I hope it will be refactored whe all browsers will support DateType inputs
+                // I hope it will be refactored when all browsers will support DateType inputs
                 'date',
                 TextType::class,
                 [
@@ -61,8 +54,9 @@ class TaxType extends AbstractType
                 ]
             )
             ->add('save', SubmitType::class, array('label' => 'Submit'))
-            ->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'sumForeignCurrencyEventListener'])
+//            ->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'sumForeignCurrencyEventListener'])
             ->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'setDateObject']);
+//            ->addEventListener(FormEvents::POST_SUBMIT, [$this, 'setCurrency']);
     }
 
     /**
@@ -104,9 +98,10 @@ class TaxType extends AbstractType
     /**
      * @param FormEvent $event
      */
-    public function setCurrency(FormEvent $event)
+    public function setCurrency(FormEvent $event): void
     {
         $data = $event->getData();
+//        dump($data); die;
         $currencyId = $data['currency'];
         $currencyRepository = $event->getForm()->getConfig()->getOption('currency_repository');
         $data['currency'] = $currencyRepository->findOneBy(['id' => $currencyId]);

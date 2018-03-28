@@ -39,22 +39,10 @@ class Tax
      * @Assert\GreaterThanOrEqual(0)
      * @ORM\Column(type="decimal", scale=2)
      */
-    private $sumHrn;
+    private $paymentSum;
 
     /**
-     * @Assert\GreaterThanOrEqual(0)
-     * @ORM\Column(type="decimal", scale=2)
-     */
-    private $sumForeignCurrency;
-
-    /**
-     * @Assert\GreaterThanOrEqual(0)
-     * @ORM\Column(type="decimal", scale=2)
-     */
-    private $totalSumHrn;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Currency")
+     * @ORM\ManyToOne(targetEntity="Currency", fetch="EAGER")
      * @ORM\JoinColumn(name="currency_id", referencedColumnName="id")
      */
     private $currency;
@@ -69,6 +57,10 @@ class Tax
      */
     private $taxSum;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $exchangeRate;
 
     /**
      * Get id
@@ -107,59 +99,33 @@ class Tax
     /**
      * Set sumHrn
      *
-     * @param string $sumHrn
+     * @param float $paymentSum
      *
      * @return Tax
      */
-    public function setSumHrn($sumHrn)
+    public function setPaymentSum($paymentSum)
     {
-        $this->sumHrn = $sumHrn;
+        $this->paymentSum = $paymentSum;
 
         return $this;
     }
 
     /**
-     * Get sumHrn
-     *
-     * @return string
+     * @return float
      */
-    public function getSumHrn()
+    public function getPaymentSum()
     {
-        return $this->sumHrn;
-    }
-
-    /**
-     * Set sumForeignCurrency
-     *
-     * @param string $sumForeignCurrency
-     *
-     * @return Tax
-     */
-    public function setSumForeignCurrency($sumForeignCurrency)
-    {
-        $this->sumForeignCurrency = $sumForeignCurrency;
-
-        return $this;
-    }
-
-    /**
-     * Get sumForeignCurrency
-     *
-     * @return string
-     */
-    public function getSumForeignCurrency()
-    {
-        return $this->sumForeignCurrency;
+        return $this->paymentSum;
     }
 
     /**
      * Set currency
      *
-     * @param integer $currency
+     * @param Currency $currency
      *
      * @return Tax
      */
-    public function setCurrency($currency)
+    public function setCurrency(Currency $currency)
     {
         $this->currency = $currency;
 
@@ -169,9 +135,9 @@ class Tax
     /**
      * Get currency
      *
-     * @return integer
+     * @return Currency
      */
-    public function getCurrency()
+    public function getCurrency():? Currency
     {
         return $this->currency;
     }
@@ -225,24 +191,26 @@ class Tax
     }
 
     /**
-     * Get Total Sum Hrn
+     * Set currency
+     *
+     * @param float $exchangeRate
+     *
+     * @return Tax
+     */
+    public function setExchangeRate($exchangeRate)
+    {
+        $this->exchangeRate = $exchangeRate;
+
+        return $this;
+    }
+
+    /**
+     * Get currency
      *
      * @return float
      */
-    public function getTotalSumHrn(): float
+    public function getExchangeRate()
     {
-        return $this->totalSumHrn;
-    }
-
-
-    /**
-     * @param float $totalSum
-     * @return $this
-     */
-    public function setTotalSumHrn(float $totalSum)
-    {
-        $this->totalSumHrn = $totalSum;
-
-        return $this;
+        return $this->exchangeRate;
     }
 }

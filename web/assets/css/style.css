@@ -9,3 +9,8 @@
 #paymentReportBtn {
     float: right;
 }
+
+.tax-history-hrn-rate {
+    font-size: 10px;
+    color: gray;
+}

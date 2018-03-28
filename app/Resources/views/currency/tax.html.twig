@@ -11,26 +11,24 @@
                 {{ form_start(form) }}
 
                 <div class="form-group">
-                    {{ form_label(form.sumHrn) }}
-                    {{ form_widget(form.sumHrn, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.sumHrn) }}
+
+                    {{ form_label(form.paymentSum) }}
+                    {{ form_widget(form.paymentSum, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.paymentSum) }}
+
+                    {{ form_widget(form.paymentSum, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.paymentSum) }}
                 </div>
 
-                <div class="form-group">
-                    {#{{ form_widget(form.paymentInForeignCurrency) }}#}
-                    {#{{ form_label(form.paymentInForeignCurrency) }}#}
-                    {#{{ form_errors(form.paymentInForeignCurrency) }}#}
-                    <input type="checkbox" name="" id="paymentInForeignCurrency">
-                    <label for="paymentInForeignCurrency">Payment in foreign currency</label>
-                </div>
+                {#<div class="form-group">#}
+                {#{{ form_widget(form.paymentInForeignCurrency) }}#}
+                {#{{ form_label(form.paymentInForeignCurrency) }}#}
+                {#{{ form_errors(form.paymentInForeignCurrency) }}#}
+                {#<input type="checkbox" name="" id="paymentInForeignCurrency">#}
+                {#<label for="paymentInForeignCurrency">Payment in foreign currency</label>#}
+                {#</div>#}
 
-                <div class="form-group sumForeignCurrency hidden">
-                    {{ form_label(form.sumForeignCurrency) }}
-                    {{ form_widget(form.sumForeignCurrency, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.sumForeignCurrency) }}
-                </div>
-
-                <div class="form-group currency hidden">
+                <div class="form-group currency">
                     {{ form_label(form.currency) }}
                     {{ form_widget(form.currency, {'attr': {'class': 'form-control'}}) }}
                     {{ form_errors(form.currency) }}
