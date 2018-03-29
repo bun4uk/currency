@@ -4,17 +4,13 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "": "src/",
+            "Tests\\": "tests/"
         },
         "classmap": [
             "app/AppKernel.php",
             "app/AppCache.php"
         ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
     },
     "require": {
         "php": ">=7.1",
