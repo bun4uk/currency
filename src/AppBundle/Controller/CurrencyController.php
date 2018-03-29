@@ -74,7 +74,6 @@ class CurrencyController extends Controller
      */
     public function chartAction($currency)
     {
-
         if (!array_key_exists($currency, $this->currencyIds)) {
             throw new Exception('Currency not found!');
         }
@@ -101,8 +100,6 @@ class CurrencyController extends Controller
                 $rate->getSaleRate()
             ];
         }
-
-        dump($buyRateData); die;
 
         return $this->render('currency/chart.html.twig', array(
             'buyTimeline' => json_encode($buyRateData),
