@@ -12,7 +12,10 @@
     {{ parent() }}
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
-        var chart = JSON.parse('{{ jsonPaymentsChart }}');
+        var objChart = JSON.parse('{{ jsonPaymentsChart|raw }}');
+        var chart = Object.keys(objChart).map(function(key) {
+            return [Number(key) + ' Квартал', objChart[key], '#4747ec'];
+        });
     </script>
     <script type="text/javascript" src="{{ asset('assets/js/paymentChart.js') }}"></script>
 {% endblock %}

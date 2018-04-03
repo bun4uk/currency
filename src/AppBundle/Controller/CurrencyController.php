@@ -16,7 +16,6 @@ use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\Repository\CurrencyRepository;
 use AppBundle\Entity\Currency;
 use AppBundle\Entity\Rate;
-use ACSEO\Bundle\GraphicBundle\Graphic\Flot\Type\TimeLine;
 use AppBundle\Form\TaxType;
 use AppBundle\Form\QuarterReportType;
 use AppBundle\Entity\Tax;
@@ -223,22 +222,27 @@ class CurrencyController extends Controller
 
     /**
      * @Route(
-     *     "/payments/chart",
+     *     "/payments/chart/{year}",
      *     name="payments_chart"
      * )
+     * @param int $year
+     * @return Response
      */
-    public function paymentChartAction()
+    public function paymentChartAction(int $year = 2018)
     {
-        $paymentsRepository = $this->getDoctrine()->getRepository(Tax::class);
-        $payments = $paymentsRepository->findBy(['user' => $this->getUser()->getId()], ['date' => 'desc']);
         $paymentsChartData = [];
-        foreach ($payments as $payment) {
 
-            $paymentsChartData[] = [
-                $payment->getDate()->getTimestamp()*1000,
-                (float)$payment->getPaymentSum()
+        $paymentRepository = $this->getDoctrine()->getRepository(Tax::class);
 
-            ];
+        $quarters = [1, 2, 3, 4];
+
+        foreach ($quarters as $quarter) {
+            $quarterPayment = 0;
+            $payments = $paymentRepository->getPaymentsByQuarter($quarter, $year, $this->getUser()->getId());
+            foreach ($payments as $payment) {
+                $quarterPayment += $payment->getPaymentSum() * ($payment->getExchangeRate() ?? 1);
+            }
+            $paymentsChartData[$quarter] = $quarterPayment;
         }
 
         return $this->render('currency/paymentsChart.html.twig', array(
@@ -246,45 +250,6 @@ class CurrencyController extends Controller
         ));
 
     }
-
-//    public function paymentChartAction()
-//    {
-//        $paymentsChartData = [];
-//
-//        $paymentRepository = $this->getDoctrine()->getRepository(Tax::class);
-//
-//        $years = [2015, 2016, 2017, 2018];
-//        $quarters = [1, 2, 3, 4];
-//
-//        foreach ($years as $year) {
-//            foreach ($quarters as $quarter) {
-//                $quarterPayment = 0;
-//                $payments = $paymentRepository->getPaymentsByQuarter($quarter, $year, $this->getUser()->getId());
-//                foreach ($payments as $payment) {
-//                    $quarterPayment += $payment->getPaymentSum() * ($payment->getExchangeRate() ?? 1);
-//                }
-//                $paymentsChartData[] = [(int)($year . $quarter), $quarterPayment];
-//
-//            }
-//        }
-////die;
-////        dump($paymentsChartData);
-////        die;
-////
-////        foreach ($payments as $payment) {
-////
-////
-////            $paymentsChartData[] = [
-////                $payment->getDate()->getTimestamp() * 1000,
-////                $payment->getPaymentSum()
-////            ];
-////        }
-//
-//        return $this->render('currency/paymentsChart.html.twig', array(
-//            'jsonPaymentsChart' => json_encode($paymentsChartData)
-//        ));
-//
-//    }
 
     /**
      * @param Request $request
