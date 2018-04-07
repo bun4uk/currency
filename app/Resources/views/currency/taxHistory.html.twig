@@ -2,8 +2,8 @@
 
 
 {% block body %}
-    {% include 'currency/userBlock.html.twig' %}
     {% include 'currency/menu.html.twig' %}
+
     <div class="container">
         <p>
             <a href="{{ path('tax_calculator') }}" class="btn btn-primary">
@@ -21,7 +21,6 @@
         </p>
         <table class="table colored_table">
             <tr>
-                <th>Id</th>
                 <th>Сумма</th>
                 <th>Дата</th>
                 <th>Сумма ЕН</th>
@@ -30,9 +29,6 @@
             </tr>
             {% for tax in taxes %}
                 <tr>
-                    <td>
-                        {{ tax.id }}
-                    </td>
                     <td>
                         {{ tax.paymentSum }}&#x{{ tax.currency.symbol }}
                         {% if  tax.exchangeRate is not null %}

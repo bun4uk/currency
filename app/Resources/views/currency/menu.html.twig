@@ -1,23 +1,26 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
-        <div class="navbar-header">
+        <div class="col-lg-2 navbar-header">
             <a class="navbar-brand" href="/">CountMyTaxes</a>
         </div>
-        <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="{{ path('tax_calculator') }}">New Payment</a></li>
-            <li><a href="{{ path('payments_history') }}">Payment History</a></li>
-            <li><a href="{{ path('payments_chart') }}">Payment Chart</a></li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Currency Charts
-                    <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="/chart/usd">USD</a></li>
-                    <li><a href="/chart/eur">EURO</a></li>
-                    <li><a href="/chart/rur">RUR</a></li>
-                    <li><a href="/chart/btc">BTC</a></li>
-                </ul>
-            </li>
-        </ul>
+        <div class="col-lg-8">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ path('payments_history') }}">Главная</a></li>
+                <li><a href="{{ path('tax_calculator') }}">Новый платёж</a></li>
+                <li><a href="{{ path('payments_chart') }}">График доходов</a></li>
+                <li><a href="{{ path('currency_rates') }}">Курсы валют</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Грфик курсов
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/chart/usd">USD</a></li>
+                        <li><a href="/chart/eur">EURO</a></li>
+                        <li><a href="/chart/rur">RUR</a></li>
+                        <li><a href="/chart/btc">BTC</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        {% include 'currency/userBlock.html.twig' %}
     </div>
 </nav>

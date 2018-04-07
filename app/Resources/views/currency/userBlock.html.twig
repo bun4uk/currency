@@ -1,20 +1,15 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-3">
-            {% if app.user is not null %}
-                <h2>Welcome {{ app.user.username }}!</h2>
-                <p>
-                    <a href="{{ logout_path('main') }}">Logout</a>
-                </p>
-            {% else %}
-                <h2>Welcome Guest!</h2>
-                <p>
-                    <a href="{{ path('fos_user_security_login') }}">Login</a>
-                    /
-                    <a href="{{ path('fos_user_registration_register') }}">Register</a>
-                </p>
-            {% endif %}
-        </div>
-    </div>
-
+<div class="col-lg-2 pull-right user-block">
+    {% if app.user is not null %}
+        <h4>{{ app.user.username }}!</h4>
+        <p>
+            <a href="{{ logout_path('main') }}">Выйти</a>
+        </p>
+    {% else %}
+        <h2>Приветствую, Путник!</h2>
+        <p>
+            <a href="{{ path('fos_user_security_login') }}">Логин</a>
+            /
+            <a href="{{ path('fos_user_registration_register') }}">Регистрация</a>
+        </p>
+    {% endif %}
 </div>

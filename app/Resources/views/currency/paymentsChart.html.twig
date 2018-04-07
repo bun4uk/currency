@@ -1,11 +1,18 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    {% include 'currency/userBlock.html.twig' %}
     {% include 'currency/menu.html.twig' %}
     <!-- remember to give width and height to your graph containers -->
-    <h2>Payments chart</h2>
-    <div id="chart"></div>
+    <div class="container">
+        <div class="row">
+            <h2>Payments chart</h2>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div id="chart"></div>
+        </div>
+    </div>
 
 {% endblock %}
 {% block javascripts %}
@@ -13,7 +20,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
         var objChart = JSON.parse('{{ jsonPaymentsChart|raw }}');
-        var chart = Object.keys(objChart).map(function(key) {
+        var chart = Object.keys(objChart).map(function (key) {
             return [Number(key) + ' Квартал', objChart[key], '#4747ec'];
         });
     </script>

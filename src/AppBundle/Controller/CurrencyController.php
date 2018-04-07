@@ -32,9 +32,9 @@ class CurrencyController extends Controller
     ];
 
     /**
-     * @Route("/", name="currency homepage")
+     * @Route("/rates", name="currency_rates")
      */
-    public function indexAction()
+    public function ratesAction()
     {
         $currencyService = $this->get('app.currency_service');
         $bankApiService = $this->get('app.bank_api');
@@ -188,36 +188,40 @@ class CurrencyController extends Controller
      * @param Request $request
      * @return RedirectResponse|Response
      * @Route(
-     *     "/payments/history",
+     *     "/",
      *     name="payments_history"
      * )
      */
     public function paymentsHistoryAction(Request $request)
     {
-        $paymentsRepository = $this->getDoctrine()->getRepository(Tax::class);
+        if ($this->getUser()) {
+            $paymentsRepository = $this->getDoctrine()->getRepository(Tax::class);
 
-        $currencyService = $this->get('app.currency_service');
-        $availableQuarters = $currencyService->getAvailableQuarters($this->getUser());
+            $currencyService = $this->get('app.currency_service');
+            $availableQuarters = $currencyService->getAvailableQuarters($this->getUser());
 
-        $payments = $paymentsRepository->findBy(['user' => $this->getUser()->getId()], ['date' => 'desc']);
-        $form = $this->createForm(
-            QuarterReportType::class,
-            null,
-            [
-                'available_quarters' => $availableQuarters,
-                'action' => $this->generateUrl('payment_report')
-            ]
-        );
+            $payments = $paymentsRepository->findBy(['user' => $this->getUser()->getId()], ['date' => 'desc']);
+            $form = $this->createForm(
+                QuarterReportType::class,
+                null,
+                [
+                    'available_quarters' => $availableQuarters,
+                    'action' => $this->generateUrl('payment_report')
+                ]
+            );
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            return $this->redirectToRoute('payment_report');
+            if ($form->isSubmitted() && $form->isValid()) {
+                return $this->redirectToRoute('payment_report');
+            }
+
+
+            return $this->render('currency/taxHistory.html.twig', [
+                'taxes' => $payments,
+                'form' => $form->createView()
+            ]);
         }
 
-
-        return $this->render('currency/taxHistory.html.twig', [
-            'taxes' => $payments,
-            'form' => $form->createView()
-        ]);
+        return $this->render('@FOSUser/layout.html.twig');
     }
 
     /**
