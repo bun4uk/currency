@@ -4,7 +4,7 @@
     {% include 'currency/menu.html.twig' %}
     <div class="container">
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12 cmt-card">
                 {% if formData.exchangeRate is not null %}
                     <h2>Курс {{ formData.currency.name }} на {{ formData.date|date("d.m.Y") }}
                         - {{ formData.exchangeRate|round(4, 'ceil') }}
