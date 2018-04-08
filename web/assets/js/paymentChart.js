@@ -1,4 +1,4 @@
-var chartData = [['Quarter', 'Payment Sum', {role: 'style'}]].concat(chart);
+var chartData = [['Квартал', 'Сумма выплат', {role: 'style'}]].concat(chart);
 
 google.charts.load('current', {'packages': ['corechart']});
 google.charts.setOnLoadCallback(drawChart);

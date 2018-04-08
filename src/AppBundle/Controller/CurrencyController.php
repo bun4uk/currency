@@ -2,8 +2,6 @@
 
 namespace AppBundle\Controller;
 
-
-use AppBundle\AppBundle;
 use AppBundle\Service\TaxService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -11,26 +9,18 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Service\BankApi;
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Repository\CurrencyRepository;
 use AppBundle\Entity\Currency;
 use AppBundle\Entity\Rate;
 use AppBundle\Form\TaxType;
 use AppBundle\Form\QuarterReportType;
 use AppBundle\Entity\Tax;
-use AppBundle\Entity\Repository\RateRepository;
 
+/**
+ * Class CurrencyController
+ * @package AppBundle\Controller
+ */
 class CurrencyController extends Controller
 {
-
-    protected $currencyIds = [
-        'usd' => 1,
-        'eur' => 2,
-        'rur' => 3,
-        'btc' => 4,
-    ];
-
     /**
      * @Route("/rates", name="currency_rates")
      */
@@ -40,19 +30,23 @@ class CurrencyController extends Controller
         $bankApiService = $this->get('app.bank_api');
 
         $currencyList = $bankApiService->getPrivatCurrencyList();
-        $btcPrice = $bankApiService->getBitcoinPrice();
-        $currencyList[] = [
-            "ccy" => "BTC",
-            "base_ccy" => "USD",
-            "buy" => $btcPrice['USD']['buy'],
-            "sale" => $btcPrice['USD']['sell'],
-        ];
+//        $btcPrice = $bankApiService->getBitcoinPrice();
+//        $currencyList[] = [
+//            "ccy" => "BTC",
+//            "base_ccy" => "USD",
+//            "buy" => $btcPrice['USD']['buy'],
+//            "sale" => $btcPrice['USD']['sell'],
+//        ];
 
         $updateTime = $this->get('app.currency_service')->getRateUpdateDate();
         $timeDiff = time() - strtotime($updateTime);
 
         if ($timeDiff > (60 * 60)) {
-            $currencyService->saveRate($currencyList);
+            try {
+                $currencyService->saveRate($currencyList);
+            } catch (\Exception $e) {
+                die('rates not saved');
+            }
         }
 
 
@@ -64,16 +58,18 @@ class CurrencyController extends Controller
     }
 
     /**
+     * @param string $currency
+     * @return Response
+     *
      * @Route(
      *     "/chart/{currency}",
      *     defaults={"currency": "usd"},
      *     name="currency chart"
      * )
-     *
      */
-    public function chartAction($currency)
+    public function chartAction(string $currency)
     {
-        if (!array_key_exists($currency, $this->currencyIds)) {
+        if (!array_key_exists($currency, Rate::CURRENCY_IDS)) {
             throw new Exception('Currency not found!');
         }
 
@@ -82,7 +78,7 @@ class CurrencyController extends Controller
 
         $rates = $this->getDoctrine()->getRepository(Rate::class)->findBy(
             [
-                'currencyId' => $this->currencyIds[$currency]
+                'currencyId' => Rate::CURRENCY_IDS[$currency]
             ],
             [
                 'creationDate' => 'ASC'

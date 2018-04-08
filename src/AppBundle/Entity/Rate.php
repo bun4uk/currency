@@ -14,6 +14,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Rate
 {
+    const CURRENCY_IDS =
+        [
+            'usd' => 1,
+            'eur' => 2,
+            'rur' => 3,
+            'btc' => 4,
+        ];
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
