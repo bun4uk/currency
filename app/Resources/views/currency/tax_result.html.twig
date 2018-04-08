@@ -7,16 +7,16 @@
             <div class="col-sm-12">
                 {% if formData.exchangeRate is not null %}
                     <h2>Курс {{ formData.currency.name }} на {{ formData.date|date("d.m.Y") }}
-                        - {{ formData.exchangeRate }}
+                        - {{ formData.exchangeRate|round(4, 'ceil') }}
                         &#x20B4</h2>
-                    <p>Получено в {{ formData.currency.name }} - {{ formData.paymentSum }}
+                    <p>Получено в {{ formData.currency.name }} - {{ formData.paymentSum|round(2, 'ceil') }}
                         &#x{{ formData.currency.symbol }}</p>
-                    <p>Получено в гривнах - {{ totalHrn }}&#x20B4</p>
+                    <p>Получено в гривнах - {{ totalHrn|round(2, 'ceil') }}&#x20B4</p>
                 {% else %}
                     <h2>Доход за {{ formData.date|date("d.m.Y") }}</h2>
-                    <p>Получено в гривнах - {{ formData.paymentSum }}&#x{{ formData.currency.symbol }}</p>
+                    <p>Получено в гривнах - {{ formData.paymentSum|round(2, 'ceil') }}&#x{{ formData.currency.symbol }}</p>
                 {% endif %}
-                <p>Сумма единого налога - {{ formData.taxSum }}&#x20B4</p>
+                <p>Сумма единого налога - {{ formData.taxSum|round(2, 'ceil') }}&#x20B4</p>
             </div>
         </div>
     </div>
