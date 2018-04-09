@@ -4,14 +4,17 @@
     <div class="main-block">
         <div class="btn-block">
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
-                <a href="{{ path('payments_history') }}">
-                    Home Page
-                </a>
-                <br>
-                <a href="{{ path('fos_user_security_logout') }}">
-                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                </a>
+                <script>window.location.href = "{{ path('payments_history') }}"</script>
+                <div class="cmt-card">
+                    {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                    <a href="{{ path('payments_history') }}">
+                        Home Page
+                    </a>
+                    <br>
+                    <a href="{{ path('fos_user_security_logout') }}">
+                        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                    </a>
+                </div>
             {% else %}
                 {% include ":security:signup.html.twig" %}
             {% endif %}
