@@ -20,11 +20,11 @@
             </button>
         </p>
         <div class="table-responsive">
-            <table class="table colored_table">
+            <table class="table colored_table payment-history">
                 <thead>
                 <tr class="table-head">
-                    <th>Сумма</th>
                     <th>Дата</th>
+                    <th>Сумма</th>
                     <th>Сумма ЕН</th>
                     <th>Квартал</th>
                     <th></th>
@@ -41,6 +41,9 @@
                 {% for tax in taxes %}
                     <tr>
                         <td>
+                            {{ tax.date|date("m-d-Y") }}
+                        </td>
+                        <td>
                             {{ tax.paymentSum }} &#x{{ tax.currency.symbol }}
                             {% if  tax.exchangeRate is not null %}
                                 <br>
@@ -49,9 +52,6 @@
                                     &#x20B4
                                 </span>
                             {% endif %}
-                        </td>
-                        <td>
-                            {{ tax.date|date("m/d/Y") }}
                         </td>
                         <td>
                             {{ tax.taxSum|round(2, 'ceil') }}

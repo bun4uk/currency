@@ -25,6 +25,22 @@ body {
     border: 0;
 }
 
+table.payment-history tr td:nth-child(1), table.payment-history tr th:nth-child(1) {
+    text-align: center;
+}
+
+table.payment-history tr td:nth-child(2),
+table.payment-history tr th:nth-child(2),
+table.payment-history tr td:nth-child(3),
+table.payment-history tr th:nth-child(3) {
+    text-align: right;
+}
+
+table.payment-history tr td:nth-child(4),
+table.payment-history tr th:nth-child(4) {
+    text-align: center;
+}
+
 .colored_table thead tr {
     background-color: #36304a;
     color: #fff;
@@ -56,7 +72,7 @@ body {
     color: #808080;
 }
 
-.colored_table tbody tr td{
+.colored_table tbody tr td {
     vertical-align: middle;
 }
 
@@ -85,10 +101,14 @@ body {
     padding-bottom: 5px;
 }
 
-.cmt-card {
+.cmt-card, .modal-content {
     background: #fff;
     border-radius: 10px;
-    border: 1px solid rgba(0,0,0,.03);
-    -webkit-box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
-    box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
+    border: 1px solid rgba(0, 0, 0, .03);
+    -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, .24), 0 0 2px rgba(0, 0, 0, .12);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, .24), 0 0 2px rgba(0, 0, 0, .12);
+}
+
+.modal-header, .modal-footer {
+    border: none;
 }
