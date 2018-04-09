@@ -33,17 +33,3 @@
     </div>
 
 {% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-
-        $('#_submit').addClass('btn btn-default').css('display', 'block');
-
-        $.each($('form input[type="text"], form input[type="password"], form input[type="email"]'), function () {
-            $(this).addClass('form-control');
-            $(this).css('margin-bottom', '15px');
-        });
-
-        //        $('form').addClass('form');
-    </script>
-{% endblock %}

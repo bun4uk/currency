@@ -10,6 +10,7 @@ namespace AppBundle\Form;
 
 use AppBundle\AppBundle;
 use AppBundle\Entity\Currency;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -39,13 +40,17 @@ class TaxType extends AbstractType
          * @var CurrencyService
          */
         $builder
-            ->add('paymentSum', NumberType::class)
+            ->add('paymentSum', NumberType::class, [
+//                'attr' => [
+//                    'type' => 'email'
+//                ]
+            ])
             ->add('currency', EntityType::class, [
                 'class' => 'AppBundle:Currency',
                 'choice_label' => 'name',
             ])
             ->add(
-                // I hope it will be refactored when all browsers will support DateType inputs
+            // I hope it will be refactored when all browsers will support DateType inputs
                 'date',
                 TextType::class,
                 [
@@ -86,11 +91,13 @@ class TaxType extends AbstractType
     public function setDateObject(FormEvent $event): bool
     {
         $data = $event->getData();
-        $event->setData(array_replace(
-                $data,
-                ['date' => \DateTime::createFromFormat('Y-m-d', $data['date'])]
-            )
-        );
+        if (is_numeric($data['paymentSum'])) {
+            $event->setData(array_replace(
+                    $data,
+                    ['date' => \DateTime::createFromFormat('Y-m-d', $data['date'])]
+                )
+            );
+        }
 
         return true;
     }

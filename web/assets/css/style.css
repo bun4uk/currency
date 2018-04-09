@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'Logo';
+    src: url('../fonts/BebasNeue Bold.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
     font-family: Open Sans, "Helvetica Neue", Helvetica, Arial, sans-serif
 }
@@ -112,3 +119,26 @@ table.payment-history tr th:nth-child(4) {
 .modal-header, .modal-footer {
     border: none;
 }
+
+.navbar {
+    border-radius: 0;
+    background-color: #36314a;
+    border: none;
+    color: #fff;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #fff;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:active {
+    color: #a5a5a5;
+}
+
+.navbar.navbar-default .navbar-brand {
+    font-family: Logo;
+    color: #fff;
+    font-size: 35px;
+    line-height: 0.8;
+} 

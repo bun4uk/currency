@@ -3,8 +3,10 @@ body, html {
 }
 
 #homepage {
+    background-color: #151515;
+
     /* The image used */
-    background-image: url("https://cryptocoinconnection.com/wp-content/uploads/2017/11/background.png");
+    background-image: url("../images/bg.png");
 
     /* Full height */
     height: 100%;
@@ -22,6 +24,7 @@ body, html {
     flex-direction: column;
     align-items: center;
 }
+
 .main-block label {
     color: #fff;
 }
@@ -32,8 +35,16 @@ body, html {
     align-items: center;
 }
 
-.form-block {
+.main-block .form-block {
     margin-top: 30px;
+}
+
+.main-block .form-block input {
+    margin-bottom: 15px;
+}
+
+.has-error {
+    color: #d9534f;
 }
 
 .hp-btn {

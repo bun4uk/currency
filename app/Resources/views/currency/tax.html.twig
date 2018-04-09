@@ -10,12 +10,7 @@
                 {{ form_start(form) }}
 
                 <div class="form-group">
-
-                    {{ form_label(form.paymentSum) }}
-                    {{ form_widget(form.paymentSum, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.paymentSum) }}
-
-                    {{ form_widget(form.paymentSum, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_widget(form.paymentSum,{'attr': {'class': 'form-control','placeholder': 'Сума платежа'}}) }}
                     {{ form_errors(form.paymentSum) }}
                 </div>
 
@@ -39,7 +34,12 @@
                     {{ form_errors(form.date) }}
                 </div>
 
-                {{ form_widget(form.save, {'attr': {'class': 'btn btn-default'}}) }}
+                {{ form_widget(form.save, {
+                    'attr': {
+                        'class': 'btn btn-default',
+                    },
+                    'label': 'Поехали!'
+                }) }}
 
                 {{ form_end(form) }}
 

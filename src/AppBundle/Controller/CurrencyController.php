@@ -125,7 +125,7 @@ class CurrencyController extends Controller
                 'currency_repository' => $currencyRepository
             ]
         );
-
+//        dump($form); die;
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -154,6 +154,11 @@ class CurrencyController extends Controller
                     'formData' => $formData
                 ]
             );
+        }
+
+        if($form->isSubmitted() && !$form->isValid()) {
+            dump($form->getErrors());
+//            die;
         }
 
         return $this->render('currency/tax.html.twig', array(
