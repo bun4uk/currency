@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-sm-4">
 
-                {{ form_start(form) }}
+                {{ form_start(form, {'attr': {'id': 'new-payment-form'}}) }}
 
                 <div class="form-group">
                     {{ form_widget(form.paymentSum,{'attr': {'class': 'form-control','placeholder': 'Сума платежа'}}) }}

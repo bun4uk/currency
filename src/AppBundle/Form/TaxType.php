@@ -48,12 +48,14 @@ class TaxType extends AbstractType
             ->add('currency', EntityType::class, [
                 'class' => 'AppBundle:Currency',
                 'choice_label' => 'name',
+                'label' => 'Валюта',
             ])
             ->add(
             // I hope it will be refactored when all browsers will support DateType inputs
                 'date',
                 TextType::class,
                 [
+                    'label' => 'Дата',
 //                    'widget' => 'single_text',
 //                    'format' => 'yyyy-MM-dd',
                 ]

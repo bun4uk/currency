@@ -141,4 +141,8 @@ table.payment-history tr th:nth-child(4) {
     color: #fff;
     font-size: 35px;
     line-height: 0.8;
-} 
+}
+
+#new-payment-form label{
+    color: #fff;
+}
