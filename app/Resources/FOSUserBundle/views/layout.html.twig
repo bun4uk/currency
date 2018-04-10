@@ -2,6 +2,7 @@
 
 {% block body %}
     <div class="main-block">
+        <h1>SimpleTax&beta;</h1>
         <div class="btn-block">
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <script>window.location.href = "{{ path('payments_history') }}"</script>

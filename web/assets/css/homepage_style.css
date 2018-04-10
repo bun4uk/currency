@@ -1,3 +1,14 @@
+* {
+    font-family: Open Sans, "Helvetica Neue", Helvetica, Arial, sans-serif
+}
+
+@font-face {
+    font-family: 'Logo';
+    src: url('../fonts/BebasNeue Bold.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body, html {
     height: 100%;
 }
@@ -41,6 +52,12 @@ body, html {
 
 .main-block .form-block input {
     margin-bottom: 15px;
+}
+
+.main-block h1{
+    color: #fff;
+    font-family: Logo;
+    font-size: 60px;
 }
 
 .has-error {

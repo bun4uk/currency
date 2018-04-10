@@ -16,7 +16,7 @@ use AppBundle\Entity\Tax;
 class TaxService
 {
     const TAX_RATE = 0.05;
-    const MIN_SALARY = 3200;
+    const MIN_SALARY = 3723;
     const SSC_TAX_RATE = 0.22;
 
     /**
